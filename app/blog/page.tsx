@@ -64,10 +64,10 @@ const tagColors: Record<string, string> = {
 export default function BlogPage() {
   return (
     <div className="pt-16 min-h-screen bg-white">
-      <div className="max-w-3xl mx-auto px-5 py-20">
-        <div className="mb-14">
-          <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">Blog</span>
-          <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-3">
+      <div className="max-w-3xl mx-auto px-5 py-14">
+        <div className="mb-10">
+          <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">Blog</span>
+          <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-2">
             Writing
           </h1>
           <p className="text-gray-500">
@@ -75,39 +75,53 @@ export default function BlogPage() {
           </p>
         </div>
 
-        <div className="space-y-1">
-          {posts.map((post, i) => (
+        {/* Tag filter strip */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {['All', 'Engineering', 'Product', 'Insights', 'Release'].map((tag) => (
+            <span
+              key={tag}
+              className={`px-3 py-1 rounded-full text-xs font-semibold cursor-default ${
+                tag === 'All'
+                  ? 'bg-accent text-white'
+                  : 'bg-gray-100 text-gray-600'
+              }`}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        <div className="divide-y divide-gray-100">
+          {posts.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="group block py-7 border-b border-gray-100 hover:border-gray-200 transition-colors last:border-0"
+              className="group flex items-start justify-between gap-4 py-6 hover:bg-gray-50/50 -mx-3 px-3 rounded-xl transition-colors"
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2.5 mb-2.5 flex-wrap">
-                    <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${tagColors[post.tag] || 'bg-gray-100 text-gray-600'}`}>
-                      {post.tag}
-                    </span>
-                    <span className="text-xs text-gray-400">{post.date}</span>
-                    <span className="text-xs text-gray-400">{post.readTime} read</span>
-                  </div>
-                  <h2 className="text-base font-semibold text-gray-900 group-hover:text-accent transition-colors mb-1.5 leading-snug">
-                    {post.title}
-                  </h2>
-                  <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
-                    {post.excerpt}
-                  </p>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span className={`px-2 py-0.5 rounded-full text-[11px] font-semibold ${tagColors[post.tag] || 'bg-gray-100 text-gray-600'}`}>
+                    {post.tag}
+                  </span>
+                  <span className="text-xs text-gray-400">{post.date}</span>
+                  <span className="text-xs text-gray-400">{post.readTime} read</span>
                 </div>
-                <svg
-                  className="w-4 h-4 text-gray-300 group-hover:text-accent group-hover:translate-x-1 transition-all flex-shrink-0 mt-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
+                <h2 className="text-base font-semibold text-gray-900 group-hover:text-accent transition-colors mb-1.5 leading-snug">
+                  {post.title}
+                </h2>
+                <p className="text-sm text-gray-500 leading-relaxed line-clamp-2">
+                  {post.excerpt}
+                </p>
               </div>
+              <svg
+                className="w-4 h-4 text-gray-300 group-hover:text-accent group-hover:translate-x-1 transition-all flex-shrink-0 mt-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
             </Link>
           ))}
         </div>

@@ -43,10 +43,10 @@ const releases = [
 export default function DownloadPage() {
   return (
     <div className="pt-16 min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-5 py-20">
-        <div className="text-center mb-16">
-          <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">Download</span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight mb-4">
+      <div className="max-w-4xl mx-auto px-5 py-14">
+        <div className="text-center mb-12">
+          <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">Download</span>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight mb-3">
             Get woozcode
           </h1>
           <p className="text-gray-500 text-lg max-w-md mx-auto">
@@ -55,7 +55,7 @@ export default function DownloadPage() {
         </div>
 
         {/* Install options */}
-        <div className="grid md:grid-cols-3 gap-4 mb-16">
+        <div className="grid md:grid-cols-3 gap-4 mb-12">
           {[
             { label: 'npm', cmd: 'npm install -g woozcode', icon: 'N' },
             { label: 'yarn', cmd: 'yarn global add woozcode', icon: 'Y' },
@@ -78,10 +78,33 @@ export default function DownloadPage() {
           ))}
         </div>
 
+        {/* Quick start steps */}
+        <div className="bg-gray-50 rounded-2xl border border-gray-100 p-6 mb-12">
+          <h2 className="text-base font-bold text-gray-900 mb-4">Quick start</h2>
+          <div className="space-y-3">
+            {[
+              { step: '1', cmd: 'npm install -g woozcode', label: 'Install globally' },
+              { step: '2', cmd: 'wooz init', label: 'Initialize in your project' },
+              { step: '3', cmd: 'wooz start', label: 'Start the local daemon' },
+              { step: '4', cmd: 'wooz status', label: 'Verify it is running' },
+            ].map((item) => (
+              <div key={item.step} className="flex items-center gap-4">
+                <span className="w-6 h-6 rounded-full bg-accent/10 text-accent text-xs font-bold flex items-center justify-center flex-shrink-0">
+                  {item.step}
+                </span>
+                <pre className="font-mono text-sm text-gray-700 bg-white rounded-lg px-3 py-2 border border-gray-200 flex-1 overflow-x-auto">
+                  <code>$ {item.cmd}</code>
+                </pre>
+                <span className="text-xs text-gray-400 hidden sm:block whitespace-nowrap">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Binary downloads */}
-        <div className="mb-16">
-          <h2 className="text-lg font-bold text-gray-900 mb-5">Direct download</h2>
-          <div className="grid sm:grid-cols-3 gap-3">
+        <div className="mb-12">
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Direct download</h2>
+          <div className="grid sm:grid-cols-2 gap-3">
             {[
               { os: 'macOS (Apple Silicon)', file: 'woozcode-macos-arm64.tar.gz' },
               { os: 'macOS (Intel)', file: 'woozcode-macos-x64.tar.gz' },
@@ -106,7 +129,7 @@ export default function DownloadPage() {
         </div>
 
         {/* GitHub */}
-        <div className="mb-16 p-6 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="mb-12 p-5 rounded-2xl border border-gray-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <h3 className="font-semibold text-gray-900 mb-1">Build from source</h3>
             <p className="text-sm text-gray-500">
@@ -114,7 +137,9 @@ export default function DownloadPage() {
             </p>
           </div>
           <a
-            href="#"
+            href="https://github.com/yusufsafary/woozcode"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 text-gray-700 text-sm font-semibold hover:border-gray-300 hover:bg-gray-50 transition-all active:scale-95 whitespace-nowrap"
           >
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -126,10 +151,10 @@ export default function DownloadPage() {
 
         {/* Release notes */}
         <div>
-          <h2 className="text-lg font-bold text-gray-900 mb-6">Release notes</h2>
-          <div className="space-y-5">
+          <h2 className="text-lg font-bold text-gray-900 mb-5">Release notes</h2>
+          <div className="space-y-4">
             {releases.map((r) => (
-              <div key={r.version} className="border border-gray-100 rounded-xl p-5">
+              <div key={r.version} className="border border-gray-100 rounded-xl p-5 hover:border-gray-200 transition-colors">
                 <div className="flex items-center gap-2.5 mb-3">
                   <code className="text-sm font-mono font-bold text-gray-900">{r.version}</code>
                   {r.tag && (

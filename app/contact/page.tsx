@@ -1,14 +1,17 @@
 'use client'
 
-import type { Metadata } from 'next'
 import { useState } from 'react'
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
+    await new Promise((r) => setTimeout(r, 800))
+    setLoading(false)
     setSent(true)
   }
 
@@ -22,9 +25,15 @@ export default function ContactPage() {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Message received</h2>
-          <p className="text-gray-500 text-sm">
-            Thanks for reaching out. We aim to respond within one business day.
+          <p className="text-gray-500 text-sm leading-relaxed mb-6">
+            Thanks for reaching out. We usually reply within one business day.
           </p>
+          <button
+            onClick={() => { setSent(false); setForm({ name: '', email: '', subject: '', message: '' }) }}
+            className="text-sm text-accent hover:underline"
+          >
+            Send another message
+          </button>
         </div>
       </div>
     )
@@ -32,16 +41,14 @@ export default function ContactPage() {
 
   return (
     <div className="pt-16 min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-5 py-20">
-        <div className="grid md:grid-cols-2 gap-16">
-          {/* Left */}
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">Contact</span>
-            <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-4">
-              Get in touch
-            </h1>
-            <p className="text-gray-500 leading-relaxed mb-10">
-              Have a question about woozcode, a bug to report, or interest in the Enterprise plan? Send us a message and we will get back to you.
+      <div className="max-w-5xl mx-auto px-5 py-14">
+        <div className="grid lg:grid-cols-5 gap-12">
+          {/* Left info */}
+          <div className="lg:col-span-2">
+            <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">Contact</span>
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-3">Get in touch</h1>
+            <p className="text-gray-500 text-sm leading-relaxed mb-8">
+              Have a question, bug report, or enterprise inquiry? We read every message and reply within one business day.
             </p>
 
             <div className="space-y-5">
@@ -53,7 +60,7 @@ export default function ContactPage() {
                     </svg>
                   ),
                   label: 'Email',
-                  value: 'hello@woozcode.com',
+                  value: 'hello@woozcode.dev',
                 },
                 {
                   icon: (
@@ -62,89 +69,107 @@ export default function ContactPage() {
                     </svg>
                   ),
                   label: 'GitHub',
-                  value: 'github.com/woozcode',
-                },
-                {
-                  icon: (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 3H3a2 2 0 00-2 2v13a2 2 0 002 2h5l3 3 3-3h5a2 2 0 002-2V5a2 2 0 00-2-2z" />
-                    </svg>
-                  ),
-                  label: 'Discord',
-                  value: 'discord.gg/woozcode',
+                  value: 'github.com/yusufsafary/woozcode',
+                  href: 'https://github.com/yusufsafary/woozcode',
                 },
               ].map((item) => (
-                <div key={item.label} className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 flex-shrink-0">
+                <div key={item.label} className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-accent/8 text-accent flex items-center justify-center flex-shrink-0">
                     {item.icon}
                   </div>
                   <div>
-                    <div className="text-xs text-gray-400 font-medium">{item.label}</div>
-                    <div className="text-sm text-gray-700 font-medium">{item.value}</div>
+                    <div className="text-xs text-gray-400 font-medium mb-0.5">{item.label}</div>
+                    {'href' in item ? (
+                      <a href={item.href} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-700 hover:text-accent transition-colors">
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span className="text-sm text-gray-700">{item.value}</span>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
+
+            <div className="mt-8 p-4 rounded-xl bg-gray-50 border border-gray-100">
+              <p className="text-xs text-gray-500 leading-relaxed">
+                For bug reports, please include your OS, woozcode version (<code className="font-mono bg-white px-1 rounded text-gray-700">wooz --version</code>), and steps to reproduce.
+              </p>
+            </div>
           </div>
 
           {/* Form */}
-          <div>
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="name">
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  required
-                  placeholder="Your name"
-                  value={form.name}
-                  onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/15 transition-all"
-                />
+          <div className="lg:col-span-3">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="Jane Smith"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    placeholder="jane@company.com"
+                    className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/15 transition-all"
-                />
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Subject</label>
+                <select
+                  value={form.subject}
+                  onChange={(e) => setForm({ ...form, subject: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all bg-white"
+                >
+                  <option value="">Select a topic</option>
+                  <option value="general">General question</option>
+                  <option value="bug">Bug report</option>
+                  <option value="enterprise">Enterprise inquiry</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5" htmlFor="message">
-                  Message
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Message</label>
                 <textarea
-                  id="message"
                   required
                   rows={6}
-                  placeholder="What can we help you with?"
                   value={form.message}
                   onChange={(e) => setForm({ ...form, message: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/15 transition-all resize-none"
+                  placeholder="Tell us what you need..."
+                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-900 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-accent/30 focus:border-accent transition-all resize-none"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 rounded-xl bg-accent text-white font-semibold text-sm hover:bg-accent-600 active:scale-[0.98] transition-all shadow-sm shadow-accent/25"
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-accent text-white font-semibold text-sm hover:bg-accent-600 active:scale-[0.99] transition-all disabled:opacity-70 shadow-sm shadow-accent/25"
               >
-                Send message
+                {loading ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  'Send message'
+                )}
               </button>
-
-              <p className="text-xs text-gray-400 text-center">
-                We typically respond within one business day.
-              </p>
             </form>
           </div>
         </div>

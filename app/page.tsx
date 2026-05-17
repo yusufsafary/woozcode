@@ -42,8 +42,7 @@ const features = [
   {
     icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
     title: 'Works with any model',
@@ -94,7 +93,7 @@ function FadeSection({ children, className = '' }: { children: React.ReactNode; 
     if (!el) return
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect() } },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     )
     obs.observe(el)
     return () => obs.disconnect()
@@ -102,7 +101,7 @@ function FadeSection({ children, className = '' }: { children: React.ReactNode; 
   return (
     <div
       ref={ref}
-      className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`}
+      className={`transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`}
     >
       {children}
     </div>
@@ -115,28 +114,28 @@ export default function Home() {
   return (
     <div className="pt-16">
       {/* Hero */}
-      <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-white">
+      <section className="relative min-h-[78vh] flex items-center overflow-hidden bg-white">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 right-[-10%] w-[600px] h-[600px] rounded-full bg-accent/5 blur-3xl" />
-          <div className="absolute bottom-0 left-[-5%] w-[400px] h-[400px] rounded-full bg-accent/4 blur-3xl" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30" />
+          <div className="absolute top-1/4 right-[-10%] w-[500px] h-[500px] rounded-full bg-accent/5 blur-3xl" />
+          <div className="absolute bottom-0 left-[-5%] w-[350px] h-[350px] rounded-full bg-accent/4 blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-5 py-24 md:py-32 w-full">
+        <div className="relative max-w-6xl mx-auto px-5 py-16 md:py-20 w-full">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/8 border border-accent/20 text-accent text-xs font-semibold tracking-wide mb-8 animate-fade-in">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/8 border border-accent/20 text-accent text-xs font-semibold tracking-wide mb-6 animate-fade-in">
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               v1.0 now available
             </div>
 
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.05] mb-6 animate-fade-up">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold tracking-tight text-gray-900 leading-[1.05] mb-5 animate-fade-up">
               The plugin that cuts your{' '}
               <span className="text-accent">AI costs</span>
               {' '}in half.
             </h1>
 
-            <p className="text-lg sm:text-xl text-gray-500 max-w-xl leading-relaxed mb-10 animate-fade-up animate-delay-100">
-              Install with one command to start saving. Smarter tools. Runs fully on your machine.
+            <p className="text-lg sm:text-xl text-gray-500 max-w-xl leading-relaxed mb-8 animate-fade-up animate-delay-100">
+              Install with one command to start saving. Smarter context. Runs fully on your machine.
             </p>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-fade-up animate-delay-200">
@@ -157,7 +156,7 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="mt-12 flex items-center gap-6 animate-fade-up animate-delay-300">
+            <div className="mt-10 flex items-center gap-6 animate-fade-up animate-delay-300">
               <div className="text-center">
                 <div className="text-2xl font-bold text-gray-900">60%</div>
                 <div className="text-xs text-gray-500 mt-0.5">token reduction</div>
@@ -172,28 +171,33 @@ export default function Home() {
                 <div className="text-2xl font-bold text-gray-900">100%</div>
                 <div className="text-xs text-gray-500 mt-0.5">local processing</div>
               </div>
+              <div className="w-px h-10 bg-gray-200" />
+              <div className="text-center">
+                <div className="text-2xl font-bold text-gray-900">5</div>
+                <div className="text-xs text-gray-500 mt-0.5">smart tools</div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Token reduction */}
-      <section className="py-24 bg-gray-50 border-y border-gray-100">
+      <section className="py-16 bg-gray-50 border-y border-gray-100">
         <div className="max-w-6xl mx-auto px-5">
           <FadeSection>
-            <div className="text-center mb-16">
-              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">How it works</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-4">
+            <div className="text-center mb-10">
+              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">How it works</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-3">
                 Fewer tokens. Same results.
               </h2>
-              <p className="text-gray-500 max-w-lg mx-auto">
+              <p className="text-gray-500 max-w-lg mx-auto text-[15px]">
                 Woozcode intercepts requests before they leave your machine, removes waste, and forwards a leaner prompt. The model never knows the difference.
               </p>
             </div>
           </FadeSection>
 
           <FadeSection>
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
               <div className="bg-white rounded-2xl border border-gray-200 p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <span className="px-2.5 py-1 rounded-full bg-red-50 text-red-600 text-xs font-semibold">Without woozcode</span>
@@ -239,28 +243,28 @@ export default function Home() {
       </section>
 
       {/* Features */}
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-5">
           <FadeSection>
-            <div className="text-center mb-16">
-              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">Features</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-4">
+            <div className="text-center mb-10">
+              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">Features</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-3">
                 Built for the local-first stack
               </h2>
-              <p className="text-gray-500 max-w-lg mx-auto">
+              <p className="text-gray-500 max-w-lg mx-auto text-[15px]">
                 Everything processes on your machine. No cloud dependency. No data exposure. Just results.
               </p>
             </div>
           </FadeSection>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f, i) => (
               <FadeSection key={f.title} className={`animate-delay-${i * 100}`}>
-                <div className="p-6 rounded-2xl border border-gray-100 hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 transition-all group bg-white">
-                  <div className="w-10 h-10 rounded-xl bg-accent/8 text-accent flex items-center justify-center mb-4 group-hover:bg-accent group-hover:text-white transition-all">
+                <div className="p-5 rounded-2xl border border-gray-100 hover:border-accent/30 hover:shadow-md hover:shadow-accent/5 transition-all group bg-white h-full">
+                  <div className="w-10 h-10 rounded-xl bg-accent/8 text-accent flex items-center justify-center mb-3 group-hover:bg-accent group-hover:text-white transition-all">
                     {f.icon}
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
+                  <h3 className="font-semibold text-gray-900 mb-1.5">{f.title}</h3>
                   <p className="text-sm text-gray-500 leading-relaxed">{f.desc}</p>
                 </div>
               </FadeSection>
@@ -270,71 +274,89 @@ export default function Home() {
       </section>
 
       {/* Smart tools */}
-      <section className="py-24 bg-gray-950">
+      <section className="py-16 bg-gray-950">
         <div className="max-w-6xl mx-auto px-5">
           <FadeSection>
-            <div className="text-center mb-14">
-              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">Smart tools</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
-                A toolkit, not a black box
+            <div className="text-center mb-10">
+              <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">CLI Tools</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
+                Five tools. One install.
               </h2>
-              <p className="text-gray-400 max-w-lg mx-auto">
-                Each woozcode tool is a precise instrument. Use them together or in isolation.
+              <p className="text-gray-400 max-w-lg mx-auto text-[15px]">
+                Each tool is focused on one job. Together they cover every angle of token waste in a real development workflow.
               </p>
             </div>
           </FadeSection>
 
-          <div className="max-w-2xl mx-auto space-y-2">
-            {tools.map((tool, i) => (
-              <FadeSection key={tool.name}>
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/8 hover:bg-white/8 transition-all group cursor-default">
-                  <div className="w-8 h-8 rounded-lg bg-accent/20 text-accent flex items-center justify-center flex-shrink-0 text-xs font-bold font-mono">
-                    {(i + 1).toString().padStart(2, '0')}
-                  </div>
+          <FadeSection>
+            <div className="max-w-2xl mx-auto space-y-2">
+              {tools.map((tool) => (
+                <div
+                  key={tool.name}
+                  className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/8 hover:bg-white/8 hover:border-white/15 transition-all group"
+                >
+                  <code className="font-mono text-sm text-accent whitespace-nowrap flex-shrink-0 pt-0.5">{tool.name}</code>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <code className="text-sm font-mono text-white font-semibold">{tool.name}</code>
-                      <span className={`px-1.5 py-0.5 rounded text-[10px] font-semibold ${tool.badge === 'Pro' ? 'bg-accent/20 text-accent' : 'bg-white/10 text-gray-400'}`}>
-                        {tool.badge}
-                      </span>
-                    </div>
-                    <p className="text-xs text-gray-400 truncate">{tool.desc}</p>
+                    <p className="text-sm text-gray-300">{tool.desc}</p>
                   </div>
-                  <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0 ${
+                    tool.badge === 'Pro'
+                      ? 'bg-accent/20 text-accent'
+                      : 'bg-white/10 text-gray-400'
+                  }`}>
+                    {tool.badge}
+                  </span>
                 </div>
-              </FadeSection>
+              ))}
+            </div>
+          </FadeSection>
+        </div>
+      </section>
+
+      {/* Social proof strip */}
+      <section className="py-10 bg-white border-y border-gray-100">
+        <div className="max-w-6xl mx-auto px-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            {[
+              { stat: '300+', label: 'beta testers' },
+              { stat: '18', label: 'countries' },
+              { stat: '$0', label: 'cloud dependency' },
+              { stat: '< 60s', label: 'to install' },
+            ].map((item) => (
+              <div key={item.label}>
+                <div className="text-2xl font-bold text-gray-900">{item.stat}</div>
+                <div className="text-xs text-gray-500 mt-0.5">{item.label}</div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-white">
+      <section className="py-16 bg-accent">
         <FadeSection>
-          <div className="max-w-3xl mx-auto px-5 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight mb-4">
-              Start saving tokens today
+          <div className="max-w-4xl mx-auto px-5 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-4">
+              Ready to cut your AI bill?
             </h2>
-            <p className="text-gray-500 text-lg mb-10">
-              Free to start. No account required. Works with your existing setup in under 60 seconds.
+            <p className="text-accent-100 text-lg mb-8 max-w-md mx-auto opacity-90">
+              Free to install. No account. No cloud. Just leaner prompts and lower invoices.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/download"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-accent text-white font-semibold hover:bg-accent-600 active:scale-95 transition-all shadow-lg shadow-accent/25"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white text-accent font-bold text-sm hover:bg-gray-50 active:scale-95 transition-all shadow-lg"
               >
+                Download free
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                 </svg>
-                Download for free
               </Link>
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-semibold hover:border-gray-300 hover:bg-gray-50 active:scale-95 transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-white/30 text-white font-semibold text-sm hover:bg-white/10 active:scale-95 transition-all"
               >
-                View pricing
+                See pricing
               </Link>
             </div>
           </div>

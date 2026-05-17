@@ -64,22 +64,22 @@ const plans = [
 export default function PricingPage() {
   return (
     <div className="pt-16 min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-5 py-20">
-        <div className="text-center mb-16">
-          <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-3 block">Pricing</span>
-          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight mb-4">
+      <div className="max-w-6xl mx-auto px-5 py-14">
+        <div className="text-center mb-12">
+          <span className="text-xs font-semibold uppercase tracking-widest text-accent mb-2 block">Pricing</span>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 tracking-tight mb-3">
             Simple, transparent pricing
           </h1>
           <p className="text-gray-500 text-lg max-w-lg mx-auto">
-            Start free. Upgrade when you need more. No hidden fees, no token limits on the features you actually care about.
+            Start free. Upgrade when you need more. No hidden fees.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-5 mb-16">
           {plans.map((plan) => (
             <div
               key={plan.name}
-              className={`relative flex flex-col rounded-2xl p-7 border transition-all ${
+              className={`relative flex flex-col rounded-2xl p-6 border transition-all ${
                 plan.accent
                   ? 'bg-accent border-accent shadow-xl shadow-accent/20 text-white'
                   : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-md'
@@ -93,8 +93,8 @@ export default function PricingPage() {
                 </div>
               )}
 
-              <div className="mb-6">
-                <h2 className={`text-sm font-semibold uppercase tracking-widest mb-3 ${plan.accent ? 'text-white/70' : 'text-gray-500'}`}>
+              <div className="mb-5">
+                <h2 className={`text-xs font-semibold uppercase tracking-widest mb-2.5 ${plan.accent ? 'text-white/70' : 'text-gray-500'}`}>
                   {plan.name}
                 </h2>
                 <div className="flex items-end gap-1.5 mb-1">
@@ -108,7 +108,7 @@ export default function PricingPage() {
                 <p className={`text-sm ${plan.accent ? 'text-white/70' : 'text-gray-500'}`}>{plan.tagline}</p>
               </div>
 
-              <ul className="space-y-3 flex-1 mb-8">
+              <ul className="space-y-2.5 flex-1 mb-6">
                 {plan.features.map((f) => (
                   <li key={f} className="flex items-start gap-2.5 text-sm">
                     <svg
@@ -127,7 +127,7 @@ export default function PricingPage() {
 
               <Link
                 href={plan.href}
-                className={`flex items-center justify-center py-3 rounded-xl font-semibold text-sm transition-all active:scale-95 ${
+                className={`flex items-center justify-center py-2.5 rounded-xl font-semibold text-sm transition-all active:scale-95 ${
                   plan.accent
                     ? 'bg-white text-accent hover:bg-gray-50'
                     : 'bg-accent text-white hover:bg-accent-600 shadow-sm shadow-accent/20'
@@ -139,10 +139,61 @@ export default function PricingPage() {
           ))}
         </div>
 
+        {/* Feature comparison */}
+        <div className="mb-16 overflow-x-auto">
+          <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">What's included</h2>
+          <table className="w-full text-sm border-collapse min-w-[500px]">
+            <thead>
+              <tr className="border-b-2 border-gray-100">
+                <th className="text-left py-3 px-4 text-gray-500 font-medium w-1/2">Feature</th>
+                <th className="text-center py-3 px-4 text-gray-700 font-semibold">Free</th>
+                <th className="text-center py-3 px-4 text-accent font-semibold">Pro</th>
+                <th className="text-center py-3 px-4 text-gray-700 font-semibold">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {[
+                ['Token compression', true, true, true],
+                ['wooz compress + context', true, true, true],
+                ['Local daemon', true, true, true],
+                ['Daily limit', '50K tokens', 'Unlimited', 'Unlimited'],
+                ['Aggressive compression', false, true, true],
+                ['Semantic cache', false, true, true],
+                ['wooz diff & batch', false, true, true],
+                ['Analytics dashboard', false, true, true],
+                ['SSO & access controls', false, false, true],
+                ['Audit logs', false, false, true],
+                ['Custom SLA', false, false, true],
+              ].map(([feature, free, pro, ent]) => (
+                <tr key={String(feature)} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="py-3 px-4 text-gray-700 font-medium">{feature}</td>
+                  {[free, pro, ent].map((val, i) => (
+                    <td key={i} className="py-3 px-4 text-center">
+                      {typeof val === 'boolean' ? (
+                        val ? (
+                          <svg className="w-4 h-4 text-accent mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        ) : (
+                          <svg className="w-4 h-4 text-gray-300 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        )
+                      ) : (
+                        <span className="text-xs text-gray-600 font-medium">{val}</span>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
         {/* FAQ */}
-        <div className="mt-20 max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 text-center mb-10">Common questions</h2>
-          <div className="space-y-3">
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">Common questions</h2>
+          <div className="space-y-2.5">
             {[
               {
                 q: 'Does woozcode ever see my prompts?',
@@ -162,13 +213,15 @@ export default function PricingPage() {
               },
             ].map((item) => (
               <details key={item.q} className="group border border-gray-200 rounded-xl overflow-hidden">
-                <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors">
+                <summary className="flex items-center justify-between px-5 py-4 cursor-pointer text-sm font-semibold text-gray-900 hover:bg-gray-50 transition-colors list-none">
                   {item.q}
-                  <svg className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-4 h-4 text-gray-400 group-open:rotate-180 transition-transform flex-shrink-0 ml-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                   </svg>
                 </summary>
-                <div className="px-5 pb-4 pt-1 text-sm text-gray-600 leading-relaxed">{item.a}</div>
+                <div className="px-5 pb-4 pt-1 text-sm text-gray-600 leading-relaxed">
+                  {item.a}
+                </div>
               </details>
             ))}
           </div>
