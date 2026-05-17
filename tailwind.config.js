@@ -24,21 +24,38 @@ module.exports = {
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       animation: {
-        'fade-up': 'fadeUp 0.5s ease forwards',
+        'fade-up': 'fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'fade-in': 'fadeIn 0.4s ease forwards',
+        'slide-right': 'slideRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'cursor': 'typing-cursor 1s step-end infinite',
       },
       keyframes: {
         fadeUp: {
-          '0%': { opacity: '0', transform: 'translateY(16px)' },
+          '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
+        slideRight: {
+          '0%': { opacity: '0', transform: 'translateX(-12px)' },
+          '100%': { opacity: '1', transform: 'translateX(0)' },
+        },
+        'typing-cursor': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' },
+        },
+      },
+      backgroundImage: {
+        'gradient-accent': 'linear-gradient(135deg, #4320E3 0%, #5B3DF5 50%, #7C5FF7 100%)',
+      },
+      boxShadow: {
+        'glow-accent': '0 0 40px -8px rgba(91, 61, 245, 0.4)',
+        'glow-accent-sm': '0 0 20px -4px rgba(91, 61, 245, 0.3)',
       },
     },
   },
