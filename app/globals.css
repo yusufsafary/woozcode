@@ -54,6 +54,50 @@ h1, h2, h3, h4, h5, h6 {
 .animate-slide-right{ animation: slideRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .animate-cursor     { animation: blinkCursor 1s step-end infinite; }
 
+/* ── Custom range slider ─────────────────────────────────── */
+input[type="range"].wooz-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  border: none;
+  height: 2px;
+  border-radius: 9999px;
+  cursor: pointer;
+}
+input[type="range"].wooz-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  border: 2.5px solid white;
+  box-shadow: 0 0 0 1.5px #0a0a0a, 0 1px 4px rgba(0,0,0,0.18);
+  cursor: grab;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+input[type="range"].wooz-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 1.5px #0a0a0a, 0 2px 8px rgba(0,0,0,0.22);
+}
+input[type="range"].wooz-slider:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.15);
+}
+input[type="range"].wooz-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  border: 2.5px solid white;
+  box-shadow: 0 0 0 1.5px #0a0a0a;
+  cursor: grab;
+}
+input[type="range"].wooz-slider::-moz-range-track {
+  border: none;
+  height: 2px;
+  background: transparent;
+}
+
 .prose-wooz h2   { font-family: var(--font-display); @apply text-xl font-bold text-gray-900 mb-4 mt-10 pb-3 border-b border-gray-100; }
 .prose-wooz h3   { font-family: var(--font-display); @apply text-base font-semibold text-gray-900 mb-3 mt-6; }
 .prose-wooz p    { @apply text-[15px] text-gray-600 leading-relaxed; }

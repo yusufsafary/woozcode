@@ -441,6 +441,239 @@ function CompressorDemo() {
   )
 }
 
+/* ── SavingsCalculator ───────────────────────────────────── */
+const MODELS = [
+  { key: 'gpt4o',     label: 'GPT-4o',          price: 2.50 },
+  { key: 'gpt4mini',  label: 'GPT-4o mini',      price: 0.15 },
+  { key: 'claude35',  label: 'Claude 3.5 Sonnet', price: 3.00 },
+  { key: 'haiku',     label: 'Claude Haiku',      price: 0.25 },
+  { key: 'gemini15',  label: 'Gemini 1.5 Pro',    price: 1.25 },
+  { key: 'flash',     label: 'Gemini Flash',       price: 0.075 },
+]
+const PRESETS = [
+  { label: 'Conservative', pct: 40 },
+  { label: 'Standard',     pct: 55 },
+  { label: 'Aggressive',   pct: 70 },
+]
+
+function useAnimatedNumber(target: number, ms = 280) {
+  const [cur, setCur] = useState(target)
+  const prev = useRef(target)
+  useEffect(() => {
+    const from = prev.current; prev.current = target
+    if (Math.abs(from - target) < 0.0001) return
+    const t0 = performance.now()
+    const tick = (now: number) => {
+      const p = Math.min((now - t0) / ms, 1)
+      const ease = 1 - Math.pow(1 - p, 3)
+      setCur(from + (target - from) * ease)
+      if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [target, ms])
+  return cur
+}
+
+function WoozSlider({ label, hint, value, min, max, step = 1, fmt, onChange }: {
+  label: string; hint?: string; value: number; min: number; max: number
+  step?: number; fmt: (v: number) => string; onChange: (v: number) => void
+}) {
+  const pct = ((value - min) / (max - min)) * 100
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-2.5">
+        <span className="text-xs text-gray-500">{label}</span>
+        <span className="font-display text-sm font-bold text-gray-900 tabular-nums">{fmt(value)}</span>
+      </div>
+      <input
+        type="range" min={min} max={max} step={step} value={value}
+        onChange={e => onChange(Number(e.target.value))}
+        className="wooz-slider w-full"
+        style={{ background: `linear-gradient(to right, #0a0a0a 0%, #0a0a0a ${pct}%, #e5e7eb ${pct}%, #e5e7eb 100%)` }}
+      />
+      {hint && <p className="text-[10px] text-gray-400 mt-1.5">{hint}</p>}
+    </div>
+  )
+}
+
+function SavingsCalculator() {
+  const [calls,   setCalls]   = useState(500)
+  const [tokens,  setTokens]  = useState(1500)
+  const [modelKey, setModelKey] = useState('gpt4o')
+  const [presetIdx, setPresetIdx] = useState(1)
+
+  const model  = MODELS.find(m => m.key === modelKey) ?? MODELS[0]
+  const preset = PRESETS[presetIdx]
+
+  const monthlyTokens   = calls * 30 * tokens
+  const compressedTokens = monthlyTokens * (1 - preset.pct / 100)
+  const costBefore  = (monthlyTokens    / 1_000_000) * model.price
+  const costAfter   = (compressedTokens / 1_000_000) * model.price
+  const monthlySaved = costBefore - costAfter
+  const yearlySaved  = monthlySaved * 12
+  const perCall      = monthlySaved / (calls * 30)
+
+  const aBefore  = useAnimatedNumber(costBefore)
+  const aAfter   = useAnimatedNumber(costAfter)
+  const aSaved   = useAnimatedNumber(monthlySaved)
+  const aYear    = useAnimatedNumber(yearlySaved)
+
+  const fmt = (n: number) =>
+    n >= 10000 ? `$${(n / 1000).toFixed(0)}k`
+    : n >= 1000 ? `$${(n / 1000).toFixed(1)}k`
+    : n >= 10   ? `$${n.toFixed(0)}`
+    : `$${n.toFixed(2)}`
+
+  const barPct = 100 - preset.pct
+
+  return (
+    <div className="mt-8 pt-8 border-t border-gray-100">
+      {/* Header */}
+      <div className="flex items-baseline gap-3 mb-6">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 mb-0.5">Savings calculator</p>
+          <h3 className="font-display text-lg font-bold text-gray-900 tracking-tight">How much could you save?</h3>
+        </div>
+        {monthlySaved > 0 && (
+          <div className="ml-auto text-right animate-fade-in">
+            <div className="font-display text-2xl font-bold text-gray-900 tabular-nums">{fmt(aSaved)}<span className="text-sm font-normal text-gray-400">/mo</span></div>
+            <div className="text-[10px] text-gray-400">{fmt(aYear)} per year</div>
+          </div>
+        )}
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+        {/* ── Controls ── */}
+        <div className="space-y-6">
+          <WoozSlider
+            label="API calls per day"
+            value={calls} min={10} max={5000} step={10}
+            fmt={v => `${v.toLocaleString()} calls/day`}
+            onChange={setCalls}
+          />
+          <WoozSlider
+            label="Average tokens per call"
+            value={tokens} min={200} max={8000} step={100}
+            fmt={v => `${v.toLocaleString()} tokens`}
+            hint="Includes system prompt + user message + context"
+            onChange={setTokens}
+          />
+
+          {/* Model selector */}
+          <div>
+            <p className="text-xs text-gray-500 mb-2.5">AI model</p>
+            <div className="flex flex-wrap gap-1.5">
+              {MODELS.map(m => (
+                <button key={m.key} onClick={() => setModelKey(m.key)}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium border transition-all active:scale-95 ${
+                    m.key === modelKey
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400 hover:text-gray-800'
+                  }`}>
+                  {m.label}
+                  <span className={`ml-1 text-[9px] ${m.key === modelKey ? 'text-gray-400' : 'text-gray-300'}`}>
+                    ${m.price}/M
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Compression preset */}
+          <div>
+            <p className="text-xs text-gray-500 mb-2.5">Compression level</p>
+            <div className="grid grid-cols-3 gap-1.5">
+              {PRESETS.map((p, i) => (
+                <button key={p.label} onClick={() => setPresetIdx(i)}
+                  className={`py-2.5 rounded-lg text-[11px] font-medium border transition-all active:scale-95 ${
+                    i === presetIdx
+                      ? 'bg-gray-900 text-white border-gray-900'
+                      : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                  }`}>
+                  <div>{p.label}</div>
+                  <div className={`text-[10px] mt-0.5 ${i === presetIdx ? 'text-gray-400' : 'text-gray-300'}`}>−{p.pct}% tokens</div>
+                </button>
+              ))}
+            </div>
+            <p className="text-[10px] text-gray-400 mt-2">
+              Conservative = safe trimming. Aggressive = maximum removal.
+            </p>
+          </div>
+        </div>
+
+        {/* ── Results ── */}
+        <div className="flex flex-col gap-4">
+          {/* 3 stat cards */}
+          <div className="grid grid-cols-3 gap-2">
+            {([
+              { label: 'Without wooz', val: aBefore, dark: false, sub: 'monthly' },
+              { label: 'With wooz',    val: aAfter,  dark: false, sub: 'monthly' },
+              { label: 'You save',     val: aSaved,  dark: true,  sub: 'monthly' },
+            ] as const).map(s => (
+              <div key={s.label} className={`rounded-xl p-3.5 border flex flex-col justify-between min-h-[88px] ${
+                s.dark ? 'bg-gray-950 border-gray-800' : 'bg-gray-50 border-gray-100'
+              }`}>
+                <div className={`font-display text-[22px] font-bold tabular-nums leading-none ${s.dark ? 'text-white' : 'text-gray-900'}`}>
+                  {fmt(s.val)}
+                </div>
+                <div>
+                  <div className={`text-[11px] font-medium mt-2 ${s.dark ? 'text-gray-300' : 'text-gray-700'}`}>{s.label}</div>
+                  <div className={`text-[9px] mt-0.5 ${s.dark ? 'text-gray-600' : 'text-gray-400'}`}>{s.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Comparison bar */}
+          <div className="rounded-xl bg-gray-50 border border-gray-100 p-4">
+            <div className="flex items-center justify-between text-[10px] text-gray-400 mb-3">
+              <span>Token volume after compression</span>
+              <span className="font-mono font-semibold text-gray-600">{barPct}% of original</span>
+            </div>
+            {/* Original bar */}
+            <div className="mb-2">
+              <div className="flex items-center justify-between text-[10px] text-gray-400 mb-1">
+                <span>Before</span>
+                <span className="font-mono">{((monthlyTokens) / 1_000_000).toFixed(1)}M tok/mo</span>
+              </div>
+              <div className="h-2 bg-gray-200 rounded-full" />
+            </div>
+            {/* Compressed bar */}
+            <div className="mb-4">
+              <div className="flex items-center justify-between text-[10px] text-gray-400 mb-1">
+                <span>After</span>
+                <span className="font-mono">{((compressedTokens) / 1_000_000).toFixed(1)}M tok/mo</span>
+              </div>
+              <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-full bg-gray-900 rounded-full transition-all duration-500 ease-out"
+                  style={{ width: `${barPct}%` }} />
+              </div>
+            </div>
+            {/* Per-call + yearly row */}
+            <div className="flex items-center justify-between pt-3 border-t border-gray-200">
+              <div>
+                <div className="text-[10px] text-gray-400">Per-call saving</div>
+                <div className="text-sm font-mono font-semibold text-gray-800 tabular-nums">
+                  ${perCall.toFixed(perCall < 0.001 ? 6 : perCall < 0.01 ? 5 : 4)}
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-[10px] text-gray-400">Yearly savings</div>
+                <div className="font-display text-lg font-bold text-gray-900 tabular-nums">{fmt(aYear)}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Disclaimer */}
+          <p className="text-[10px] text-gray-400 leading-relaxed">
+            Based on {model.label} pricing (${model.price}/1M input tokens). Estimates are illustrative — actual savings vary by prompt structure and content.
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ── features & tools ────────────────────────────────────── */
 const features = [
   { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Up to 60% fewer tokens', desc: 'Strips redundant context before it hits the API. Same output — lower invoice.' },
@@ -519,9 +752,10 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Emulator — right below explanation */}
-          <div className="pb-10">
+          {/* Emulator + Calculator */}
+          <div className="pb-12">
             <CompressorDemo />
+            <SavingsCalculator />
           </div>
         </div>
       </section>
