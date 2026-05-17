@@ -66,10 +66,15 @@ const COLOR: Record<string, string> = {
   pl: 'text-gray-200',
 }
 
-function CodeLine({ line, delay = 0 }: { line: Tok[]; delay?: number }) {
+function CodeLine({ line, delay = 0, noAnimate = false, dimmed = false, strikethrough = false }: {
+  line: Tok[]; delay?: number; noAnimate?: boolean; dimmed?: boolean; strikethrough?: boolean
+}) {
   return (
-    <div className="flex flex-wrap text-[11px] font-mono leading-[1.75] animate-fade-in opacity-0 whitespace-pre"
-      style={{ animationDelay: `${delay}ms`, animationFillMode: 'forwards' }}>
+    <div
+      className={`flex flex-wrap text-[11px] font-mono leading-[1.75] whitespace-pre transition-all duration-200 ${
+        noAnimate ? '' : 'animate-fade-in opacity-0'
+      } ${dimmed ? 'opacity-25' : ''} ${strikethrough ? 'line-through decoration-red-500/40' : ''}`}
+      style={noAnimate ? {} : { animationDelay: `${delay}ms`, animationFillMode: 'forwards' }}>
       {line.map((tok, i) => <span key={i} className={COLOR[tok.t] ?? 'text-gray-200'}>{tok.v}</span>)}
     </div>
   )
@@ -194,23 +199,46 @@ function CompressorDemo() {
   const [idx, setIdx] = useState(0)
   const [phase, setPhase] = useState<'idle' | 'running' | 'done'>('idle')
   const [progress, setProgress] = useState(0)
+  const [scanPct, setScanPct] = useState(0)
   const sample = SAMPLES[idx]
   const savings = sample.inputTokens - sample.outputTokens
   const pct = Math.round((savings / sample.inputTokens) * 100)
-  const displayedTokens = useCountUp(phase === 'done' ? sample.outputTokens : sample.inputTokens, phase === 'done')
+  const displayedOutTokens = useCountUp(phase === 'done' ? sample.outputTokens : sample.inputTokens, phase === 'done')
+
+  /* live token counts while running */
+  const liveInTokens = phase === 'running'
+    ? Math.round(sample.inputTokens - savings * (progress / 100) * 0.85)
+    : sample.inputTokens
+  const liveOutTokens = phase === 'running'
+    ? Math.round(sample.outputTokens * (progress / 100))
+    : 0
+
+  /* how many output lines to show while running */
+  const visibleOutLines = phase === 'running'
+    ? Math.floor((progress / 100) * sample.output.length)
+    : phase === 'done' ? sample.output.length : 0
+
+  /* which input lines to dim/strikethrough (every 3rd "removed" line) */
+  const removedInputLines = new Set(
+    sample.input
+      .map((_, i) => i)
+      .filter(i => i % 3 === 1 || (sample.input[i][0]?.t === 'cm'))
+  )
 
   const run = useCallback(() => {
     if (phase === 'running') return
-    setPhase('running'); setProgress(0)
+    setPhase('running'); setProgress(0); setScanPct(0)
     let p = 0
     const iv = setInterval(() => {
-      p += Math.random() * 16 + 7
-      setProgress(Math.min(p, 100))
-      if (p >= 100) { clearInterval(iv); setPhase('done') }
-    }, 55)
+      p += Math.random() * 10 + 5
+      const clamped = Math.min(p, 100)
+      setProgress(clamped)
+      setScanPct(clamped)
+      if (clamped >= 100) { clearInterval(iv); setTimeout(() => setPhase('done'), 250) }
+    }, 45)
   }, [phase])
 
-  const reset = (i: number) => { setIdx(i); setPhase('idle'); setProgress(0) }
+  const reset = (i: number) => { setIdx(i); setPhase('idle'); setProgress(0); setScanPct(0) }
 
   return (
     <div className="w-full">
@@ -235,43 +263,103 @@ function CompressorDemo() {
 
       {/* Panels — dark terminals */}
       <div className="grid md:grid-cols-2 gap-2">
-        {/* Input */}
-        <div className="rounded-xl bg-gray-950 border border-gray-800 overflow-hidden">
+
+        {/* ── Input panel ── */}
+        <div className={`rounded-xl bg-gray-950 overflow-hidden transition-all duration-300 ${
+          phase === 'running' ? 'border border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.04)]' : 'border border-gray-800'
+        }`}>
           <div className="flex items-center gap-1.5 px-3.5 py-2.5 border-b border-gray-800">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
             <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
             <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
             <span className="text-[11px] text-gray-600 font-mono ml-2">input.{sample.lang}</span>
-            <div className="ml-auto flex items-center gap-1">
-              <span className="text-[11px] font-mono font-semibold text-red-400">{sample.inputTokens.toLocaleString()}</span>
-              <span className="text-[10px] text-gray-700"> tok</span>
+            <div className="ml-auto flex items-center gap-1.5">
+              {phase === 'running' && (
+                <span className="w-1 h-1 rounded-full bg-white/60 animate-pulse" />
+              )}
+              <span className={`text-[11px] font-mono font-semibold tabular-nums transition-colors duration-150 ${
+                phase === 'running' ? 'text-orange-400' : 'text-red-400'
+              }`}>
+                {phase === 'running' ? liveInTokens.toLocaleString() : sample.inputTokens.toLocaleString()}
+              </span>
+              <span className="text-[10px] text-gray-700">tok</span>
             </div>
           </div>
-          <div className="p-4 min-h-[200px] max-h-[260px] overflow-y-auto">
-            {sample.input.map((line, i) => (
-              <CodeLine key={`${idx}-in-${i}`} line={line} delay={i * 16} />
-            ))}
+          {/* Code area with scanner */}
+          <div className="relative p-4 min-h-[200px] max-h-[260px] overflow-hidden">
+            {/* Scanner beam — sweeps down during running */}
+            {phase === 'running' && (
+              <>
+                {/* Glow halo above beam */}
+                <div className="absolute left-0 right-0 pointer-events-none z-10"
+                  style={{
+                    top: `max(0px, calc(${scanPct}% - 24px))`,
+                    height: '48px',
+                    background: 'linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%)',
+                    transition: 'top 45ms linear',
+                  }} />
+                {/* Sharp scan line */}
+                <div className="absolute left-3 right-3 h-px pointer-events-none z-10"
+                  style={{
+                    top: `${scanPct}%`,
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), rgba(255,255,255,0.7), rgba(255,255,255,0.15), transparent)',
+                    transition: 'top 45ms linear',
+                    boxShadow: '0 0 6px 1px rgba(255,255,255,0.2)',
+                  }} />
+              </>
+            )}
+            {sample.input.map((line, i) => {
+              const linePct = (i / (sample.input.length - 1)) * 100
+              const isScanned = phase === 'running' && linePct < scanPct - 5
+              const isRemoved = isScanned && removedInputLines.has(i)
+              return (
+                <CodeLine
+                  key={`${idx}-in-${i}`}
+                  line={line}
+                  noAnimate
+                  dimmed={isRemoved}
+                  strikethrough={isRemoved && line[0]?.t === 'cm'}
+                />
+              )
+            })}
           </div>
         </div>
 
-        {/* Output */}
+        {/* ── Output panel ── */}
         <div className={`rounded-xl border overflow-hidden transition-all duration-400 ${
-          phase !== 'idle' ? 'bg-gray-950 border-gray-700' : 'bg-gray-50 border-gray-200'
+          phase !== 'idle'
+            ? phase === 'done'
+              ? 'bg-gray-950 border-gray-600 shadow-[0_0_24px_rgba(52,211,153,0.06)]'
+              : 'bg-gray-950 border-gray-700'
+            : 'bg-gray-50 border-gray-200'
         }`}>
           <div className={`flex items-center gap-1.5 px-3.5 py-2.5 border-b ${phase !== 'idle' ? 'border-gray-800' : 'border-gray-200'}`}>
+            <span className={`w-2.5 h-2.5 rounded-full ${phase === 'done' ? 'bg-emerald-500/80' : 'bg-gray-600'}`} />
             <span className="w-2.5 h-2.5 rounded-full bg-gray-600" />
             <span className="w-2.5 h-2.5 rounded-full bg-gray-600" />
-            <span className="w-2.5 h-2.5 rounded-full bg-gray-600" />
-            <span className={`text-[11px] font-mono ml-2 ${phase !== 'idle' ? 'text-gray-600' : 'text-gray-400'}`}>output.{sample.lang}</span>
-            <div className="ml-auto flex items-center gap-1">
-              <span className={`text-[11px] font-mono font-semibold transition-colors ${phase === 'done' ? 'text-emerald-400' : 'text-gray-600'}`}>
-                {displayedTokens.toLocaleString()}
+            <span className={`text-[11px] font-mono ml-2 ${phase !== 'idle' ? 'text-gray-600' : 'text-gray-400'}`}>
+              output.{sample.lang}
+            </span>
+            <div className="ml-auto flex items-center gap-1.5">
+              {phase === 'running' && liveOutTokens > 0 && (
+                <span className="w-1 h-1 rounded-full bg-emerald-400/60 animate-pulse" />
+              )}
+              <span className={`text-[11px] font-mono font-semibold tabular-nums transition-colors ${
+                phase === 'done' ? 'text-emerald-400' : 'text-gray-600'
+              }`}>
+                {phase === 'running' && liveOutTokens > 0
+                  ? liveOutTokens.toLocaleString()
+                  : phase === 'done'
+                  ? displayedOutTokens.toLocaleString()
+                  : '—'
+                }
               </span>
-              <span className={`text-[10px] ${phase !== 'idle' ? 'text-gray-700' : 'text-gray-400'}`}> tok</span>
+              <span className={`text-[10px] ${phase !== 'idle' ? 'text-gray-700' : 'text-gray-400'}`}>tok</span>
             </div>
           </div>
 
           <div className="p-4 min-h-[200px] max-h-[260px] overflow-y-auto">
+            {/* IDLE */}
             {phase === 'idle' && (
               <div className="flex flex-col items-center justify-center h-[160px] text-center gap-2">
                 <svg className="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -280,28 +368,45 @@ function CompressorDemo() {
                 <p className="text-xs text-gray-400">Press compress to run</p>
               </div>
             )}
+
+            {/* RUNNING — output materializes line by line */}
             {phase === 'running' && (
-              <div className="flex flex-col items-center justify-center h-[160px] gap-5">
-                <div className="w-full max-w-[200px]">
-                  <div className="flex justify-between text-[10px] text-gray-600 mb-1.5 font-mono">
-                    <span>Analyzing…</span><span>{Math.round(progress)}%</span>
-                  </div>
-                  <div className="h-0.5 bg-gray-800 rounded-full overflow-hidden">
-                    <div className="h-full bg-white rounded-full transition-all duration-75" style={{ width: `${progress}%` }} />
-                  </div>
+              <div>
+                {sample.output.slice(0, visibleOutLines).map((line, i) => (
+                  <CodeLine key={`${idx}-out-r-${i}`} line={line} noAnimate />
+                ))}
+                {/* Blinking cursor at the write head */}
+                <div className="flex items-center h-[1.6em] mt-0.5">
+                  <span className="inline-block w-[6px] h-[13px] rounded-[1px] bg-white/60 animate-cursor" />
                 </div>
-                <div className="space-y-1 text-left w-full max-w-[200px]">
-                  {progress > 20 && <p className="text-[10px] text-gray-600 font-mono animate-fade-in">✓ Scanning imports…</p>}
-                  {progress > 48 && <p className="text-[10px] text-gray-600 font-mono animate-fade-in">✓ Removing redundant context…</p>}
-                  {progress > 75 && <p className="text-[10px] text-gray-600 font-mono animate-fade-in">✓ Deduplicating tokens…</p>}
-                  {progress > 90 && <p className="text-[10px] text-gray-300 font-mono animate-fade-in">⠋ Finalizing…</p>}
+                {/* Status strip at bottom */}
+                <div className="mt-3 pt-3 border-t border-gray-800/60">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-gray-700 mb-1.5">
+                    <span>
+                      {progress < 25 ? 'Scanning tokens…'
+                        : progress < 50 ? '✓ Removing stale context…'
+                        : progress < 75 ? '✓ Deduplicating imports…'
+                        : progress < 92 ? '✓ Optimizing structure…'
+                        : 'Finalizing…'}
+                    </span>
+                    <span>{Math.round(progress)}%</span>
+                  </div>
+                  <div className="h-px bg-gray-800 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all duration-75"
+                      style={{
+                        width: `${progress}%`,
+                        background: 'linear-gradient(90deg, rgba(255,255,255,0.3), rgba(255,255,255,0.6))'
+                      }} />
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* DONE */}
             {phase === 'done' && (
               <div>
                 {sample.output.map((line, i) => (
-                  <CodeLine key={`${idx}-out-${i}`} line={line} delay={i * 26} />
+                  <CodeLine key={`${idx}-out-${i}`} line={line} delay={i * 22} />
                 ))}
               </div>
             )}
