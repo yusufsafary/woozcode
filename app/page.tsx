@@ -423,150 +423,80 @@ const tools = [
 
 export default function Home() {
   const installCmd = 'npm install -g woozcode'
-  const [termStep, setTermStep] = useState(0)
-
-  useEffect(() => {
-    if (termStep >= 6) return
-    const t = setTimeout(() => setTermStep(s => s + 1), termStep === 0 ? 600 : 500)
-    return () => clearTimeout(t)
-  }, [termStep])
-
-  const termLines = [
-    { prefix: '$', text: 'wooz compress --input prompt.txt', type: 'cmd' },
-    { prefix: '', text: '  ⠋ Analyzing context...', type: 'info' },
-    { prefix: '', text: '  ✓ Stripped 412 redundant tokens', type: 'ok' },
-    { prefix: '', text: '  ✓ Deduplicated 38 import refs', type: 'ok' },
-    { prefix: '', text: '  ✓ Removed 94 verbose comments', type: 'ok' },
-    { prefix: '', text: '  Saved: 753 tokens (60.7%) · 2ms', type: 'result' },
-  ]
 
   return (
     <div className="pt-16">
-      {/* ── HERO ── */}
-      <section className="relative min-h-[82vh] flex items-center overflow-hidden">
-        {/* Gradient background */}
-        <div className="absolute inset-0 bg-white" />
+      {/* ── HERO (compact, centered) ── */}
+      <section className="relative overflow-hidden bg-white">
+        {/* Subtle gradient blobs */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[700px] h-[700px] rounded-full bg-accent/6 blur-[120px]" />
-          <div className="absolute bottom-0 left-[-10%] w-[500px] h-[500px] rounded-full bg-violet-300/10 blur-[100px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-[0.15]" />
+          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-accent/6 blur-[110px]" />
+          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-violet-200/10 blur-[90px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-[0.13]" />
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-5 py-16 w-full">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/8 border border-accent/20 text-accent text-xs font-semibold tracking-wide mb-6 animate-fade-in">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                v1.0 — now available
-              </div>
+        <div className="relative max-w-4xl mx-auto px-5 pt-14 pb-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/8 border border-accent/20 text-accent text-xs font-semibold tracking-wide mb-5 animate-fade-in">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+            v1.0 — now available
+          </div>
 
-              <h1 className="text-[2.75rem] sm:text-5xl lg:text-[3.5rem] font-bold tracking-tight text-gray-900 leading-[1.08] mb-5 animate-fade-up">
-                The plugin that cuts your{' '}
-                <span className="gradient-text">AI costs in half.</span>
-              </h1>
+          <h1 className="text-[2.6rem] sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight text-gray-900 leading-[1.08] mb-4 animate-fade-up">
+            The plugin that cuts your{' '}
+            <span className="gradient-text">AI costs in half.</span>
+          </h1>
 
-              <p className="text-lg text-gray-500 leading-relaxed mb-8 animate-fade-up animate-delay-100">
-                Smarter context. Fewer tokens. Runs 100% on your machine.
-                Install in one command and start saving immediately.
-              </p>
+          <p className="text-lg text-gray-500 leading-relaxed mb-7 max-w-xl mx-auto animate-fade-up animate-delay-100">
+            Smarter context. Fewer tokens. Runs 100% on your machine.
+            Install in one command — try it live below.
+          </p>
 
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-10 animate-fade-up animate-delay-200">
-                <div className="flex items-center bg-gray-950 rounded-xl px-4 py-3 border border-white/5 shadow-xl glow-accent-sm min-w-0 w-full sm:w-auto">
-                  <span className="text-gray-500 font-mono text-sm select-none mr-2">$</span>
-                  <code className="font-mono text-sm text-white flex-1 truncate">{installCmd}</code>
-                  <CopyButton text={installCmd} />
-                </div>
-                <Link href="/docs" className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
-                  Read the docs
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
-
-              <div className="flex items-center gap-6 animate-fade-up animate-delay-300">
-                {[
-                  { n: '60%', l: 'token reduction' },
-                  { n: '0ms', l: 'added latency' },
-                  { n: '100%', l: 'local' },
-                  { n: 'Free', l: 'to start' },
-                ].map((s, i) => (
-                  <div key={i} className="text-center">
-                    <div className="text-xl font-bold text-gray-900">{s.n}</div>
-                    <div className="text-[11px] text-gray-500 mt-0.5 whitespace-nowrap">{s.l}</div>
-                  </div>
-                ))}
-              </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8 animate-fade-up animate-delay-200">
+            <div className="flex items-center bg-gray-950 rounded-xl px-4 py-3 border border-white/5 shadow-xl glow-accent-sm">
+              <span className="text-gray-500 font-mono text-sm select-none mr-2">$</span>
+              <code className="font-mono text-sm text-white">{installCmd}</code>
+              <CopyButton text={installCmd} />
             </div>
+            <Link href="/docs" className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
+              Read the docs
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
 
-            {/* Right — animated terminal */}
-            <div className="hidden lg:block animate-fade-in animate-delay-300">
-              <div className="rounded-2xl bg-gray-950 border border-white/8 shadow-2xl shadow-accent/10 overflow-hidden">
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-white/8">
-                  <span className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <span className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <span className="w-3 h-3 rounded-full bg-green-500/80" />
-                  <span className="ml-3 text-xs text-gray-500 font-mono">woozcode — terminal</span>
-                </div>
-                <div className="p-5 space-y-2 min-h-[200px]">
-                  {termLines.slice(0, termStep).map((line, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm font-mono animate-slide-right" style={{ animationDelay: '0ms' }}>
-                      {line.prefix && <span className="text-accent select-none">{line.prefix}</span>}
-                      <span className={
-                        line.type === 'cmd' ? 'text-white' :
-                        line.type === 'ok' ? 'text-emerald-400' :
-                        line.type === 'result' ? 'text-accent font-semibold' :
-                        'text-gray-400'
-                      }>
-                        {line.text}
-                      </span>
-                    </div>
-                  ))}
-                  {termStep < termLines.length && (
-                    <span className="inline-block w-2 h-4 bg-accent animate-cursor ml-1" />
-                  )}
-                  {termStep === termLines.length && (
-                    <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-3 gap-3 animate-fade-in">
-                      {[
-                        { l: 'Original', v: '1,240 tok', c: 'text-gray-400' },
-                        { l: 'Compressed', v: '487 tok', c: 'text-accent' },
-                        { l: 'Saved', v: '$0.015', c: 'text-emerald-400' },
-                      ].map(s => (
-                        <div key={s.l} className="text-center">
-                          <div className={`text-sm font-mono font-bold ${s.c}`}>{s.v}</div>
-                          <div className="text-[10px] text-gray-600 mt-0.5">{s.l}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+          <div className="flex items-center justify-center gap-8 animate-fade-up animate-delay-300">
+            {[
+              { n: '60%', l: 'token reduction' },
+              { n: '0ms', l: 'added latency' },
+              { n: '100%', l: 'local' },
+              { n: 'Free', l: 'to start' },
+            ].map((s, i) => (
+              <div key={i} className="text-center">
+                <div className="text-xl font-bold text-gray-900">{s.n}</div>
+                <div className="text-[11px] text-gray-500 mt-0.5 whitespace-nowrap">{s.l}</div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ── LIVE EMULATOR ── */}
-      <section className="py-16 bg-gray-950">
+      {/* ── LIVE EMULATOR — immediately after hero ── */}
+      <section className="bg-gray-950 pt-10 pb-16">
         <div className="max-w-6xl mx-auto px-5">
-          <FadeSection>
-            <div className="text-center mb-10">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-xs font-semibold mb-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                Live demo
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mb-3">
-                See it work in real-time
-              </h2>
-              <p className="text-gray-400 max-w-lg mx-auto text-[15px]">
-                Pick a sample, hit compress, and watch woozcode strip tokens from real code. Same output — fraction of the cost.
-              </p>
-            </div>
-          </FadeSection>
-          <FadeSection>
-            <CompressorDemo />
-          </FadeSection>
+          <div className="text-center mb-8">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-xs font-semibold mb-3">
+              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              Live demo
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
+              See it work in real-time
+            </h2>
+            <p className="text-gray-400 max-w-md mx-auto text-[15px]">
+              Pick a sample, hit compress, and watch woozcode strip tokens from real code. Same output — fraction of the cost.
+            </p>
+          </div>
+          <CompressorDemo />
         </div>
       </section>
 
