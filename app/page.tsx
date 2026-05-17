@@ -426,77 +426,62 @@ export default function Home() {
 
   return (
     <div className="pt-16">
-      {/* ── HERO (compact, centered) ── */}
-      <section className="relative overflow-hidden bg-white">
-        {/* Subtle gradient blobs */}
+      {/* ── HERO + EMULATOR — one unified top section ── */}
+      <section className="relative overflow-hidden bg-gray-950">
+        {/* Subtle top gradient blobs */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[600px] h-[500px] rounded-full bg-accent/6 blur-[110px]" />
-          <div className="absolute top-0 left-0 w-[400px] h-[400px] rounded-full bg-violet-200/10 blur-[90px]" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-[0.13]" />
+          <div className="absolute top-0 right-0 w-[500px] h-[300px] rounded-full bg-accent/10 blur-[100px]" />
+          <div className="absolute top-0 left-0 w-[400px] h-[250px] rounded-full bg-violet-600/8 blur-[90px]" />
         </div>
 
-        <div className="relative max-w-4xl mx-auto px-5 pt-14 pb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/8 border border-accent/20 text-accent text-xs font-semibold tracking-wide mb-5 animate-fade-in">
+        {/* Brief explanation at top */}
+        <div className="relative max-w-4xl mx-auto px-5 pt-10 pb-6 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-accent/15 border border-accent/25 text-accent text-xs font-semibold tracking-wide mb-4 animate-fade-in">
             <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
             v1.0 — now available
           </div>
 
-          <h1 className="text-[2.6rem] sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight text-gray-900 leading-[1.08] mb-4 animate-fade-up">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.1] mb-3 animate-fade-up">
             The plugin that cuts your{' '}
             <span className="gradient-text">AI costs in half.</span>
           </h1>
 
-          <p className="text-lg text-gray-500 leading-relaxed mb-7 max-w-xl mx-auto animate-fade-up animate-delay-100">
-            Smarter context. Fewer tokens. Runs 100% on your machine.
-            Install in one command — try it live below.
+          <p className="text-gray-400 text-base sm:text-lg mb-2 animate-fade-up animate-delay-100">
+            Fewer tokens. Same output. Runs 100% on your machine.
           </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8 animate-fade-up animate-delay-200">
-            <div className="flex items-center bg-gray-950 rounded-xl px-4 py-3 border border-white/5 shadow-xl glow-accent-sm">
-              <span className="text-gray-500 font-mono text-sm select-none mr-2">$</span>
-              <code className="font-mono text-sm text-white">{installCmd}</code>
-              <CopyButton text={installCmd} />
-            </div>
-            <Link href="/docs" className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors whitespace-nowrap">
-              Read the docs
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-
-          <div className="flex items-center justify-center gap-8 animate-fade-up animate-delay-300">
-            {[
-              { n: '60%', l: 'token reduction' },
-              { n: '0ms', l: 'added latency' },
-              { n: '100%', l: 'local' },
-              { n: 'Free', l: 'to start' },
-            ].map((s, i) => (
-              <div key={i} className="text-center">
-                <div className="text-xl font-bold text-gray-900">{s.n}</div>
-                <div className="text-[11px] text-gray-500 mt-0.5 whitespace-nowrap">{s.l}</div>
-              </div>
-            ))}
-          </div>
+          <p className="text-accent text-sm font-medium animate-fade-up animate-delay-200">
+            ↓ Try it live below
+          </p>
         </div>
-      </section>
 
-      {/* ── LIVE EMULATOR — immediately after hero ── */}
-      <section className="bg-gray-950 pt-10 pb-16">
-        <div className="max-w-6xl mx-auto px-5">
-          <div className="text-center mb-8">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/15 border border-accent/25 text-accent text-xs font-semibold mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              Live demo
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mb-2">
-              See it work in real-time
-            </h2>
-            <p className="text-gray-400 max-w-md mx-auto text-[15px]">
-              Pick a sample, hit compress, and watch woozcode strip tokens from real code. Same output — fraction of the cost.
-            </p>
-          </div>
+        {/* Emulator — the main visual, right at the top */}
+        <div className="relative max-w-6xl mx-auto px-5 pb-12">
           <CompressorDemo />
+        </div>
+
+        {/* Install + stats strip */}
+        <div className="relative border-t border-white/8 bg-white/[0.03]">
+          <div className="max-w-4xl mx-auto px-5 py-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center bg-black/40 rounded-xl px-4 py-2.5 border border-white/10 shadow-lg">
+                <span className="text-gray-500 font-mono text-sm select-none mr-2">$</span>
+                <code className="font-mono text-sm text-white">{installCmd}</code>
+                <CopyButton text={installCmd} />
+              </div>
+              <div className="flex items-center gap-6">
+                {[
+                  { n: '60%', l: 'fewer tokens' },
+                  { n: '0ms', l: 'latency' },
+                  { n: 'Free', l: 'to start' },
+                ].map((s, i) => (
+                  <div key={i} className="text-center">
+                    <div className="text-base font-bold text-white">{s.n}</div>
+                    <div className="text-[10px] text-gray-500 mt-0.5 whitespace-nowrap">{s.l}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
