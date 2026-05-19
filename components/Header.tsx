@@ -66,12 +66,23 @@ export default function Header() {
           </Link>
         </div>
 
-        <button onClick={() => setOpen(!open)} aria-label="Toggle menu"
-          className="md:hidden w-8 h-8 flex flex-col items-center justify-center gap-[5px] rounded-lg hover:bg-gray-100 transition-colors">
-          <span className={`block w-4.5 h-px bg-gray-800 rounded transition-all duration-200 ${open ? 'rotate-45 translate-y-[5px] w-[18px]' : 'w-[18px]'}`} />
-          <span className={`block h-px bg-gray-800 rounded transition-all duration-200 ${open ? 'opacity-0 w-[18px]' : 'w-[14px]'}`} />
-          <span className={`block h-px bg-gray-800 rounded transition-all duration-200 ${open ? '-rotate-45 -translate-y-[5px] w-[18px]' : 'w-[18px]'}`} />
-        </button>
+        <div className="md:hidden flex items-center gap-1">
+          <a
+            href="https://x.com/Woozcode"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow @Woozcode on X"
+            className="flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+          >
+            <XIcon size={15} />
+          </a>
+          <button onClick={() => setOpen(!open)} aria-label="Toggle menu"
+            className="w-8 h-8 flex flex-col items-center justify-center gap-[5px] rounded-lg hover:bg-gray-100 transition-colors">
+            <span className={`block w-4.5 h-px bg-gray-800 rounded transition-all duration-200 ${open ? 'rotate-45 translate-y-[5px] w-[18px]' : 'w-[18px]'}`} />
+            <span className={`block h-px bg-gray-800 rounded transition-all duration-200 ${open ? 'opacity-0 w-[18px]' : 'w-[14px]'}`} />
+            <span className={`block h-px bg-gray-800 rounded transition-all duration-200 ${open ? '-rotate-45 -translate-y-[5px] w-[18px]' : 'w-[18px]'}`} />
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -84,15 +95,6 @@ export default function Header() {
               </Link>
             ))}
             <Link href="/contact" className="px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">Contact</Link>
-            <a
-              href="https://x.com/Woozcode"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors flex items-center gap-2"
-            >
-              <XIcon size={14} />
-              Follow on X
-            </a>
             <Link href="/download" className="mt-2 flex items-center justify-center px-4 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black transition-colors">
               Get started
             </Link>
