@@ -12,6 +12,14 @@ const nav = [
   { label: 'Download', href: '/download' },
 ]
 
+function XIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+    </svg>
+  )
+}
+
 export default function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -43,6 +51,15 @@ export default function Header() {
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
+          <a
+            href="https://x.com/Woozcode"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Follow @Woozcode on X"
+            className="flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+          >
+            <XIcon size={15} />
+          </a>
           <Link href="/contact" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
           <Link href="/download" className="inline-flex items-center px-4 py-1.5 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black active:scale-95 transition-all">
             Get started
@@ -67,6 +84,15 @@ export default function Header() {
               </Link>
             ))}
             <Link href="/contact" className="px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors">Contact</Link>
+            <a
+              href="https://x.com/Woozcode"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-3 py-2 rounded-lg text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors flex items-center gap-2"
+            >
+              <XIcon size={14} />
+              Follow on X
+            </a>
             <Link href="/download" className="mt-2 flex items-center justify-center px-4 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black transition-colors">
               Get started
             </Link>
