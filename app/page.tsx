@@ -674,6 +674,127 @@ function SavingsCalculator() {
   )
 }
 
+/* ── LiveCompressor — real, working compression on arbitrary user text ── */
+function estimateTokens(text: string) {
+  const trimmed = text.trim()
+  if (!trimmed) return 0
+  return Math.max(1, Math.round(trimmed.length / 4))
+}
+
+function compressText(text: string) {
+  let lines = text.split('\n')
+
+  // Strip full-line comments (//, #, and block /* ... */ openers/closers on their own line)
+  lines = lines.filter((line) => {
+    const t = line.trim()
+    if (!t) return true
+    if (t.startsWith('//') || t.startsWith('#')) return false
+    if (t.startsWith('/*') && t.endsWith('*/')) return false
+    return true
+  })
+
+  // Strip trailing inline comments (best-effort, ignores strings)
+  lines = lines.map((line) => line.replace(/\s+\/\/(?![^'"]*['"]).*$/, ''))
+
+  // Collapse runs of 2+ blank lines into one
+  const collapsed: string[] = []
+  let blankRun = 0
+  for (const line of lines) {
+    if (line.trim() === '') {
+      blankRun++
+      if (blankRun > 1) continue
+    } else {
+      blankRun = 0
+    }
+    collapsed.push(line.replace(/[ \t]+$/, ''))
+  }
+
+  // Deduplicate consecutive identical import/require lines
+  const deduped: string[] = []
+  const seenImports = new Set<string>()
+  for (const line of collapsed) {
+    const t = line.trim()
+    const isImport = /^(import\s|const\s.+=\s*require\()/.test(t)
+    if (isImport) {
+      if (seenImports.has(t)) continue
+      seenImports.add(t)
+    }
+    deduped.push(line)
+  }
+
+  return deduped.join('\n').trim()
+}
+
+function LiveCompressor() {
+  const [input, setInput] = useState('')
+  const [output, setOutput] = useState<string | null>(null)
+
+  const handleCompress = () => setOutput(compressText(input))
+  const handleClear = () => { setInput(''); setOutput(null) }
+
+  const inTok = estimateTokens(input)
+  const outTok = output !== null ? estimateTokens(output) : null
+  const savedPct = outTok !== null && inTok > 0 ? Math.round((1 - outTok / inTok) * 100) : null
+
+  return (
+    <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-6">
+      <div className="flex items-center justify-between mb-1">
+        <h3 className="font-display text-lg font-bold text-gray-900 tracking-tight">Try it on your own text</h3>
+        {savedPct !== null && savedPct > 0 && (
+          <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+            −{savedPct}% tokens
+          </span>
+        )}
+      </div>
+      <p className="text-sm text-gray-500 mb-4">
+        Paste real code or a prompt below. This runs a live, in-browser pass of comment stripping, blank-line
+        collapsing, and duplicate-import removal — token counts are estimated from character length (~4 chars/token).
+      </p>
+
+      <div className="grid md:grid-cols-2 gap-3">
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-mono text-gray-400">input</span>
+            <span className="text-[11px] font-mono text-gray-500">{inTok.toLocaleString()} tok (est.)</span>
+          </div>
+          <textarea
+            value={input}
+            onChange={(e) => { setInput(e.target.value); setOutput(null) }}
+            placeholder="Paste code, a prompt, or any text here…"
+            rows={10}
+            className="w-full rounded-xl border border-gray-200 bg-gray-50 p-3 font-mono text-[12px] text-gray-800 leading-relaxed resize-y focus:outline-none focus:ring-2 focus:ring-accent/40 focus:border-accent/40"
+          />
+        </div>
+        <div>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-mono text-gray-400">output</span>
+            {outTok !== null && <span className="text-[11px] font-mono text-emerald-600">{outTok.toLocaleString()} tok (est.)</span>}
+          </div>
+          <pre className="w-full h-[196px] overflow-auto rounded-xl border border-gray-800 bg-gray-950 p-3 font-mono text-[12px] text-gray-200 leading-relaxed whitespace-pre-wrap">
+            {output !== null ? output || '(nothing left after compression)' : 'Press "Compress" to see the result here.'}
+          </pre>
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center gap-3">
+        <button
+          onClick={handleCompress}
+          disabled={!input.trim()}
+          className="inline-flex items-center gap-2 px-5 py-2 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black active:scale-95 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          Compress
+        </button>
+        <button
+          onClick={handleClear}
+          className="text-sm text-gray-400 hover:text-gray-700 transition-colors"
+        >
+          Clear
+        </button>
+      </div>
+    </div>
+  )
+}
+
 /* ── features & tools ────────────────────────────────────── */
 const features = [
   { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Up to 60% fewer tokens', desc: 'Strips redundant context before it hits the API. Same output — lower invoice.' },
@@ -757,6 +878,20 @@ export default function Home() {
             <CompressorDemo />
             <SavingsCalculator />
           </div>
+        </div>
+      </section>
+
+      {/* ═══ LIVE COMPRESSOR ════════════════════════════════ */}
+      <section className="py-16 bg-white border-b border-gray-100">
+        <div className="max-w-5xl mx-auto px-5">
+          <FadeSection>
+            <div className="mb-8">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-2">Try it now</p>
+              <h2 className="font-display text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-2">No install required</h2>
+              <p className="text-gray-500 text-sm max-w-sm leading-relaxed">This is a real, working preview of the compression pass — right in your browser.</p>
+            </div>
+            <LiveCompressor />
+          </FadeSection>
         </div>
       </section>
 

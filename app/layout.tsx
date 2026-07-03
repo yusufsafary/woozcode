@@ -17,7 +17,10 @@ const spaceGrotesk = Space_Grotesk({
   display: 'swap',
 })
 
+const siteUrl = 'https://www.woozcode.fun'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: 'woozcode — Cut your AI costs in half',
     template: '%s | woozcode',
@@ -26,18 +29,26 @@ export const metadata: Metadata = {
     'woozcode is a developer plugin that reduces AI token costs and runs fully on your machine. Install with one command and start saving.',
   keywords: ['AI', 'token reduction', 'local processing', 'developer tools', 'plugin'],
   authors: [{ name: 'woozcode' }],
+  alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://woozcode.com',
+    url: siteUrl,
     siteName: 'woozcode',
     title: 'woozcode — Cut your AI costs in half',
     description: 'A plugin that reduces AI token costs and runs fully on your machine.',
+    images: [{ url: '/og.png', width: 1200, height: 630, alt: 'woozcode' }],
   },
   twitter: {
     card: 'summary_large_image',
+    site: '@Woozcode',
     title: 'woozcode — Cut your AI costs in half',
     description: 'A plugin that reduces AI token costs and runs fully on your machine.',
+    images: ['/og.png'],
+  },
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
   },
   robots: { index: true, follow: true },
 }

@@ -7,6 +7,21 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        accent: {
+          DEFAULT: '#5b4cff',
+          50: '#f2f1ff',
+          100: '#e6e3ff',
+          200: '#cfc9ff',
+          300: '#aea3ff',
+          400: '#8a79ff',
+          500: '#5b4cff',
+          600: '#4636e0',
+          700: '#3728b3',
+          800: '#2c2189',
+          900: '#241c6b',
+        },
+      },
       fontFamily: {
         sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
         display: ['var(--font-display)', 'var(--font-inter)', 'system-ui', 'sans-serif'],

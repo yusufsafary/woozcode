@@ -96,28 +96,23 @@ export default function DownloadPage() {
           </div>
         </div>
 
-        {/* Binary downloads */}
+        {/* Source & releases */}
         <div className="mb-12">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Direct download</h2>
-          <div className="grid sm:grid-cols-2 gap-3">
-            {[
-              { os: 'macOS (Apple Silicon)', file: 'woozcode-macos-arm64.tar.gz' },
-              { os: 'macOS (Intel)', file: 'woozcode-macos-x64.tar.gz' },
-              { os: 'Linux x64', file: 'woozcode-linux-x64.tar.gz' },
-              { os: 'Linux ARM64', file: 'woozcode-linux-arm64.tar.gz' },
-              { os: 'Windows x64', file: 'woozcode-win-x64.zip' },
-            ].map((item) => (
-              <button key={item.os} className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-accent/30 hover:bg-gray-50 text-left transition-all group">
-                <svg className="w-4 h-4 text-gray-400 group-hover:text-accent transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-                <div>
-                  <div className="text-sm font-medium text-gray-800">{item.os}</div>
-                  <div className="text-xs text-gray-400 font-mono">{item.file}</div>
-                </div>
-              </button>
-            ))}
-          </div>
+          <h2 className="text-lg font-bold text-gray-900 mb-4">Source & releases</h2>
+          <a
+            href="https://github.com/yusufsafary/woozcode/releases"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-accent/30 hover:bg-gray-50 text-left transition-all group"
+          >
+            <svg className="w-4 h-4 text-gray-400 group-hover:text-accent transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            <div>
+              <div className="text-sm font-medium text-gray-800">View releases on GitHub</div>
+              <div className="text-xs text-gray-400">Signed source archives and changelogs for every version</div>
+            </div>
+          </a>
         </div>
 
         {/* Release notes */}
