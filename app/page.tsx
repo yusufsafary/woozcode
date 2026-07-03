@@ -86,7 +86,7 @@ const SAMPLES = [
     label: 'React component', lang: 'tsx',
     inputTokens: 1240, outputTokens: 487,
     input: [
-      [cm('// UserCard — renders user profile + edit form')],
+      [cm('// UserCard: renders user profile + edit form')],
       [cm('// Used in: Dashboard, Profile, Settings, Sidebar')],
       [kw('import'), pl(' React, { '), id('useState'), pl(', '), id('useEffect'), pl(', '), id('useCallback'), pl(',')],
       [pl('  '), id('useRef'), pl(', '), id('useMemo'), pl(" } from 'react'")],
@@ -261,7 +261,7 @@ function CompressorDemo() {
         </span>
       </div>
 
-      {/* Panels — dark terminals */}
+      {/* Panels: dark terminals */}
       <div className="grid md:grid-cols-2 gap-2">
 
         {/* ── Input panel ── */}
@@ -287,7 +287,7 @@ function CompressorDemo() {
           </div>
           {/* Code area with scanner */}
           <div className="relative p-4 min-h-[200px] max-h-[260px] overflow-hidden">
-            {/* Scanner beam — sweeps down during running */}
+            {/* Scanner beam: sweeps down during running */}
             {phase === 'running' && (
               <>
                 {/* Glow halo above beam */}
@@ -351,7 +351,7 @@ function CompressorDemo() {
                   ? liveOutTokens.toLocaleString()
                   : phase === 'done'
                   ? displayedOutTokens.toLocaleString()
-                  : '—'
+                  : '--'
                 }
               </span>
               <span className={`text-[10px] ${phase !== 'idle' ? 'text-gray-700' : 'text-gray-400'}`}>tok</span>
@@ -369,7 +369,7 @@ function CompressorDemo() {
               </div>
             )}
 
-            {/* RUNNING — output materializes line by line */}
+            {/* RUNNING: output materializes line by line */}
             {phase === 'running' && (
               <div>
                 {sample.output.slice(0, visibleOutLines).map((line, i) => (
@@ -666,7 +666,7 @@ function SavingsCalculator() {
 
           {/* Disclaimer */}
           <p className="text-[10px] text-gray-400 leading-relaxed">
-            Based on {model.label} pricing (${model.price}/1M input tokens). Estimates are illustrative — actual savings vary by prompt structure and content.
+            Based on {model.label} pricing (${model.price}/1M input tokens). Estimates are illustrative; actual savings vary by prompt structure and content.
           </p>
         </div>
       </div>
@@ -674,7 +674,7 @@ function SavingsCalculator() {
   )
 }
 
-/* ── LiveCompressor — real, working compression on arbitrary user text ── */
+/* ── LiveCompressor: real, working compression on arbitrary user text ── */
 function estimateTokens(text: string) {
   const trimmed = text.trim()
   if (!trimmed) return 0
@@ -748,7 +748,7 @@ function LiveCompressor() {
       </div>
       <p className="text-sm text-gray-500 mb-4">
         Paste real code or a prompt below. This runs a live, in-browser pass of comment stripping, blank-line
-        collapsing, and duplicate-import removal — token counts are estimated from character length (~4 chars/token).
+        collapsing, and duplicate-import removal. Token counts are estimated from character length (~4 chars/token).
       </p>
 
       <div className="grid md:grid-cols-2 gap-3">
@@ -797,18 +797,18 @@ function LiveCompressor() {
 
 /* ── features & tools ────────────────────────────────────── */
 const features = [
-  { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Up to 60% fewer tokens', desc: 'Strips redundant context before it hits the API. Same output — lower invoice.' },
+  { icon: 'M13 10V3L4 14h7v7l9-11h-7z', title: 'Up to 60% fewer tokens', desc: 'Strips redundant context before it hits the API. Same output, lower invoice.' },
   { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Fully local', desc: 'Zero cloud. Your code, prompts, and API keys never leave your machine.' },
   { icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z', title: 'Any model', desc: 'OpenAI, Anthropic, Mistral, or any OpenAI-compatible endpoint. Drop in and go.' },
   { icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', title: 'Usage dashboard', desc: 'Track savings per session. Export reports. Show your team the receipts.' },
-  { icon: 'M4 6h16M4 12h16m-7 6h7', title: 'Context-aware trimming', desc: 'Understands code structure — removes comments, unused imports, and boilerplate.' },
-  { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Zero-latency overhead', desc: 'Processing runs in microseconds. You\'ll never feel it — just see it on the invoice.' },
+  { icon: 'M4 6h16M4 12h16m-7 6h7', title: 'Context-aware trimming', desc: 'Understands code structure: removes comments, unused imports, and boilerplate.' },
+  { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Zero-latency overhead', desc: 'Processing runs in microseconds. You\'ll never feel it, just see it on the invoice.' },
 ]
 
 const tools = [
   { name: 'wooz compress', badge: 'Core', desc: 'Strips redundant tokens from any prompt before sending.' },
-  { name: 'wooz context',  badge: 'Core', desc: 'Smart context builder — picks only what the model needs.' },
-  { name: 'wooz cache',    badge: 'Pro',  desc: 'Local semantic cache — skip repeat API calls entirely.' },
+  { name: 'wooz context',  badge: 'Core', desc: 'Smart context builder that picks only what the model needs.' },
+  { name: 'wooz cache',    badge: 'Pro',  desc: 'Local semantic cache that skips repeat API calls entirely.' },
   { name: 'wooz diff',     badge: 'Pro',  desc: 'Sends only changed lines, not the full file content.' },
   { name: 'wooz batch',    badge: 'Pro',  desc: 'Queue and batch requests to hit lower pricing tiers.' },
 ]
@@ -828,7 +828,7 @@ export default function Home() {
           <div className="pt-14 pb-10 max-w-xl">
             <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md border border-gray-200 text-gray-500 text-[11px] font-medium tracking-wide mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              v1.0 — now available
+              v1.0, now available
             </div>
 
             <h1 className="font-display text-[2.6rem] sm:text-5xl font-bold text-gray-950 leading-[1.05] tracking-tight mb-4">
@@ -836,7 +836,7 @@ export default function Home() {
             </h1>
 
             <p className="text-gray-500 text-base sm:text-[17px] leading-relaxed mb-7 max-w-sm">
-              Smarter context. Fewer tokens. Runs 100% on your machine — install once, save on every call.
+              Smarter context. Fewer tokens. Runs 100% on your machine: install once, save on every call.
             </p>
 
             <div className="flex items-center gap-3 flex-wrap">
@@ -888,7 +888,7 @@ export default function Home() {
             <div className="mb-8">
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-2">Try it now</p>
               <h2 className="font-display text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight mb-2">No install required</h2>
-              <p className="text-gray-500 text-sm max-w-sm leading-relaxed">This is a real, working preview of the compression pass — right in your browser.</p>
+              <p className="text-gray-500 text-sm max-w-sm leading-relaxed">This is a real, working preview of the compression pass, right in your browser.</p>
             </div>
             <LiveCompressor />
           </FadeSection>

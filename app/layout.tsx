@@ -22,7 +22,7 @@ const siteUrl = 'https://www.woozcode.fun'
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'woozcode — Cut your AI costs in half',
+    default: 'woozcode: Cut your AI costs in half',
     template: '%s | woozcode',
   },
   description:
@@ -35,14 +35,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: siteUrl,
     siteName: 'woozcode',
-    title: 'woozcode — Cut your AI costs in half',
+    title: 'woozcode: Cut your AI costs in half',
     description: 'A plugin that reduces AI token costs and runs fully on your machine.',
     images: [{ url: '/og.png', width: 1200, height: 630, alt: 'woozcode' }],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@Woozcode',
-    title: 'woozcode — Cut your AI costs in half',
+    title: 'woozcode: Cut your AI costs in half',
     description: 'A plugin that reduces AI token costs and runs fully on your machine.',
     images: ['/og.png'],
   },
