@@ -51,6 +51,9 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
   },
   robots: { index: true, follow: true },
+  other: {
+    'ory-verify': 'orynth-f628395150bf48ad9d9070e678d4512a',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
