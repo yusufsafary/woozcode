@@ -59,6 +59,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable}`}>
+      <head>
+        <meta name="ory-verify" content="orynth-f628395150bf48ad9d9070e678d4512a" />
+      </head>
       <body className="min-h-screen flex flex-col bg-white">
         <Header />
         <main className="flex-1">{children}</main>
