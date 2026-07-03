@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 const releases = [
   {
     version: 'v1.0.2',
-    date: 'May 14, 2025',
+    date: 'May 14, 2026',
     tag: 'Latest',
     notes: [
       'Fixed semantic cache index corruption on Windows',
@@ -19,7 +19,7 @@ const releases = [
   },
   {
     version: 'v1.0.1',
-    date: 'Apr 30, 2025',
+    date: 'Apr 30, 2026',
     tag: null,
     notes: [
       'Fixed daemon restart loop on macOS Ventura',
@@ -28,7 +28,7 @@ const releases = [
   },
   {
     version: 'v1.0.0',
-    date: 'Mar 5, 2025',
+    date: 'Mar 5, 2026',
     tag: 'Initial release',
     notes: [
       'First public release',

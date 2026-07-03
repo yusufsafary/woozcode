@@ -4,7 +4,7 @@ import Link from 'next/link'
 const posts: Record<string, { title: string; date: string; readTime: string; tag: string; body: string }> = {
   'how-we-cut-token-costs-60-percent': {
     title: 'How we cut token costs by 60% without changing models',
-    date: 'May 12, 2025',
+    date: 'May 12, 2026',
     readTime: '7 min',
     tag: 'Engineering',
     body: `When we started building woozcode, the goal was simple: reduce what developers pay to run AI without changing a single line of their workflow. No model swaps, no prompt rewriting, no cloud dependency.
@@ -39,7 +39,7 @@ We are working on a smarter context selection model that learns which parts of y
   },
   'local-first-ai-tooling': {
     title: 'The case for local-first AI tooling',
-    date: 'Apr 28, 2025',
+    date: 'Apr 28, 2026',
     readTime: '5 min',
     tag: 'Product',
     body: `There is a quiet trend in developer tooling that does not get enough attention: the move back toward the local machine.
@@ -74,7 +74,7 @@ Woozcode is our contribution to that direction. We are building for developers w
   },
   'semantic-cache-explained': {
     title: 'Semantic cache: skip the API call entirely',
-    date: 'Apr 10, 2025',
+    date: 'Apr 10, 2026',
     readTime: '9 min',
     tag: 'Engineering',
     body: `The most expensive API call is the one you make twice.
@@ -107,9 +107,9 @@ The cache is stored locally as a flat binary index. It persists across sessions 
 
 Semantic caching is not suitable for prompts that depend on real-time data, user-specific state, or random variation. For these, disable caching on a per-call basis using the skipCache: true option.`,
   },
-  'token-economics-2025': {
-    title: 'Token economics in 2025: what developers actually pay',
-    date: 'Mar 22, 2025',
+  'token-economics-2026': {
+    title: 'Token economics in 2026: what developers actually pay',
+    date: 'Mar 22, 2026',
     readTime: '6 min',
     tag: 'Insights',
     body: `We analyzed 100 anonymized codebases from our beta cohort. We wanted to understand where token spend actually goes in real development workflows.
@@ -148,7 +148,7 @@ Woozcode exists because this optimization is mechanical and tedious to do by han
   },
   'woozcode-v1-release': {
     title: 'Announcing woozcode v1.0',
-    date: 'Mar 5, 2025',
+    date: 'Mar 5, 2026',
     readTime: '4 min',
     tag: 'Release',
     body: `After six months in private beta with 300 developers across 18 countries, woozcode is now available to everyone.

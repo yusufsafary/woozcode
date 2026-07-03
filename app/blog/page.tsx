@@ -10,7 +10,7 @@ const posts = [
   {
     slug: 'how-we-cut-token-costs-60-percent',
     title: 'How we cut token costs by 60% without changing models',
-    date: 'May 12, 2025',
+    date: 'May 12, 2026',
     readTime: '7 min',
     tag: 'Engineering',
     excerpt:
@@ -19,7 +19,7 @@ const posts = [
   {
     slug: 'local-first-ai-tooling',
     title: 'The case for local-first AI tooling',
-    date: 'Apr 28, 2025',
+    date: 'Apr 28, 2026',
     readTime: '5 min',
     tag: 'Product',
     excerpt:
@@ -28,16 +28,16 @@ const posts = [
   {
     slug: 'semantic-cache-explained',
     title: 'Semantic cache: skip the API call entirely',
-    date: 'Apr 10, 2025',
+    date: 'Apr 10, 2026',
     readTime: '9 min',
     tag: 'Engineering',
     excerpt:
       'A deep dive into how embedding-based caching works, when it helps, and how we tune the similarity threshold for precision.',
   },
   {
-    slug: 'token-economics-2025',
-    title: 'Token economics in 2025: what developers actually pay',
-    date: 'Mar 22, 2025',
+    slug: 'token-economics-2026',
+    title: 'Token economics in 2026: what developers actually pay',
+    date: 'Mar 22, 2026',
     readTime: '6 min',
     tag: 'Insights',
     excerpt:
@@ -46,7 +46,7 @@ const posts = [
   {
     slug: 'woozcode-v1-release',
     title: 'Announcing woozcode v1.0',
-    date: 'Mar 5, 2025',
+    date: 'Mar 5, 2026',
     readTime: '4 min',
     tag: 'Release',
     excerpt:

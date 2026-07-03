@@ -4,7 +4,7 @@ const posts = [
   'how-we-cut-token-costs-60-percent',
   'local-first-ai-tooling',
   'semantic-cache-explained',
-  'token-economics-2025',
+  'token-economics-2026',
   'woozcode-v1-release',
 ]
 
