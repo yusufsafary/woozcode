@@ -52,14 +52,14 @@ export default function Header() {
 
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="https://x.com/Woozcode"
+            href="https://x.com/angelicacruzx"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Follow @Woozcode on X"
+            aria-label="Follow @angelicacruzx on X"
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-50 transition-colors"
           >
             <XIcon size={14} />
-            <span>@Woozcode</span>
+            <span>@angelicacruzx</span>
           </a>
           <Link href="/contact" className="text-sm text-gray-500 hover:text-gray-900 transition-colors">Contact</Link>
           <Link href="/download" className="inline-flex items-center px-4 py-1.5 rounded-lg bg-gray-900 text-white text-sm font-medium hover:bg-black active:scale-95 transition-all">
@@ -69,14 +69,14 @@ export default function Header() {
 
         <div className="md:hidden flex items-center gap-1">
           <a
-            href="https://x.com/Woozcode"
+            href="https://x.com/angelicacruzx"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Follow @Woozcode on X"
+            aria-label="Follow @angelicacruzx on X"
             className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-sm text-gray-500 hover:text-gray-900 hover:bg-gray-100 transition-colors"
           >
             <XIcon size={14} />
-            <span>@Woozcode</span>
+            <span>@angelicacruzx</span>
           </a>
           <button onClick={() => setOpen(!open)} aria-label="Toggle menu"
             className="w-8 h-8 flex flex-col items-center justify-center gap-[5px] rounded-lg hover:bg-gray-100 transition-colors">

@@ -42,10 +42,10 @@ export default function Footer() {
           <p className="text-xs text-gray-600">&copy; {new Date().getFullYear()} woozcode. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <a
-              href="https://x.com/Woozcode"
+              href="https://x.com/angelicacruzx"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Follow @Woozcode on X"
+              aria-label="Follow @angelicacruzx on X"
               className="text-gray-600 hover:text-white transition-colors"
             >
               <XIcon size={15} />

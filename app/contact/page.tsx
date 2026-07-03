@@ -33,8 +33,8 @@ export default function ContactPage() {
               ),
               label: 'Twitter / X',
               desc: 'Follow for updates, tips, and release announcements.',
-              cta: 'Follow @Woozcode',
-              href: 'https://x.com/Woozcode',
+              cta: 'Follow @angelicacruzx',
+              href: 'https://x.com/angelicacruzx',
             },
             {
               icon: (

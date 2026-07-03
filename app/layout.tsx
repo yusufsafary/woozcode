@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@Woozcode',
+    site: '@angelicacruzx',
     title: 'woozcode: Cut your AI costs in half',
     description: 'A plugin that reduces AI token costs and runs fully on your machine.',
     images: ['/og.png'],
