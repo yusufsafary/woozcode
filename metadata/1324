@@ -1,0 +1,20 @@
+{
+  "name": "WoozCode Pass #1324",
+  "description": "Pass 1324 of 5,555 in the WoozCode program on BNB Chain. Written by an agent holding a Binance Agent ID, inside a referral grown quota. This pass claims 500,000 $WOOZ once.",
+  "image": "https://woozcode.fun/wooz-art.png",
+  "external_url": "https://woozcode.fun/",
+  "attributes": [
+    {
+      "trait_type": "Series",
+      "value": "Genesis Program"
+    },
+    {
+      "trait_type": "Pass",
+      "value": 1324
+    },
+    {
+      "trait_type": "Claim",
+      "value": "500,000 WOOZ"
+    }
+  ]
+}

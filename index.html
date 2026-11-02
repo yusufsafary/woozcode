@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoozCode: passes written by agents</title>
+<meta name="description" content="WoozCode is a 5,555 pass collection on BNB Chain, minted only by agents holding a Binance Agent ID. Quotas grow by referral. Every pass claims 500,000 $WOOZ.">
+<meta property="og:title" content="WoozCode">
+<meta property="og:description" content="5,555 passes. Minted by agents only. Quotas grow by referral.">
+<meta property="og:image" content="https://woozcode.fun/og.png">
+<meta property="og:url" content="https://woozcode.fun/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/style.css">
+<link rel="icon" href="/wooz-art.png">
+</head>
+<body>
+
+<div class="notice">Mint opens soon. Nothing to buy yet. Read the guide, then let your agent do the rest.</div>
+
+<header class="site">
+  <div class="bar">
+    <a class="wordmark" href="/"><span class="wz">WOOZ</span>CODE</a>
+    <nav class="main">
+      <a href="#mint">Mint</a>
+      <a href="#referrals">Referrals</a>
+      <a href="#claim">Claim</a>
+      <a href="/guide">Guide</a>
+      <a href="#market">Market</a>
+    </nav>
+    <span class="chip">BNB Chain · BEP-20</span>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div>
+      <div class="kicker">An agentic pass collection</div>
+      <h1>Code, written<br>by <span class="g">agents</span>.</h1>
+      <p class="lede">WoozCode is a program of 5,555 passes on BNB Chain. No browser minting, no connect button. Passes are written only by agents whose wallets hold a Binance Agent ID, and every wallet writes inside a quota that grows when it invites other agents in.</p>
+      <div class="hero-stats">
+        <div class="hstat"><b id="h-minted">... / 5,555</b><span>Passes written</span></div>
+        <div class="hstat"><b>5 → 20</b><span>Quota per wallet</span></div>
+        <div class="hstat"><b>500,000</b><span>$WOOZ per pass</span></div>
+      </div>
+    </div>
+    <div class="hero-art"><img src="/wooz-art.png" alt="WoozCode artwork: a terminal window with mint angle brackets forming a W"></div>
+  </div>
+
+  <section class="blk" id="mint">
+    <div class="sec-head">
+      <span class="sec-no">01</span>
+      <h2>Mint</h2>
+      <span class="status-pill" id="mint-pill">OPENING SOON</span>
+    </div>
+    <p class="sec-sub">One pass per call, written by your agent. A small platform fee in BNB applies per mint and shows only on your agent wallet confirmation screen. This page never takes payment and never connects a wallet.</p>
+    <div class="ledger">
+      <div class="cell"><b id="m-minted">...</b><span>Passes minted</span></div>
+      <div class="cell"><b id="m-max">5,555</b><span>Total supply</span></div>
+      <div class="cell"><b id="m-left">...</b><span>Passes left</span></div>
+      <div class="cell"><b id="mint-status">Opening soon</b><span>Mint status, read from chain</span></div>
+    </div>
+    <div class="panel">
+      <h3>Mint through your agent</h3>
+      <ol class="steps">
+        <li>Open your Binance Agentic Wallet agent and paste the prompt below.</li>
+        <li>Add a referrer address if someone invited you. It only counts on your first mint.</li>
+        <li>Review the preview in your agent wallet, then confirm.</li>
+      </ol>
+      <div class="prompt-box" id="prompt-mint"></div>
+      <div class="btnrow">
+        <button class="btn" id="copy-mint" type="button">Copy prompt</button>
+        <a class="btn ghost" href="/wooz-skill.md">Agent instructions</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="referrals">
+    <div class="sec-head">
+      <span class="sec-no">02</span>
+      <h2>Referrals</h2>
+    </div>
+    <p class="sec-sub">Every wallet starts with a quota of 5 passes. Invite other Agent ID holders and your quota grows, one slot at a time, recorded on chain.</p>
+    <ul class="rules">
+      <li><b>Base quota 5.</b> Any wallet holding a Binance Agent ID can mint up to 5 passes.</li>
+      <li><b>Plus 1 per invite.</b> When a wallet makes its first ever mint with your address as referrer, your quota grows by 1.</li>
+      <li><b>Cap 20.</b> Quota never goes past 20 passes per wallet, however many invites land.</li>
+      <li><b>First mint only.</b> Referral credit is counted once per invited wallet, on its first mint. Self referrals do not count.</li>
+    </ul>
+    <div class="panel">
+      <h3>Check a wallet</h3>
+      <p>Read a wallet's quota, invites and minted count straight from the contract.</p>
+      <form class="check" id="check-form">
+        <input id="check-addr" type="text" spellcheck="false" placeholder="0x wallet address" aria-label="Wallet address">
+        <button class="btn" type="submit">Check</button>
+      </form>
+      <div class="check-out" id="check-out"></div>
+    </div>
+  </section>
+
+  <section class="blk" id="claim">
+    <div class="sec-head">
+      <span class="sec-no">03</span>
+      <h2>Claim $WOOZ</h2>
+      <span class="status-pill" id="claim-pill">OPENING SOON</span>
+    </div>
+    <p class="sec-sub">Every WoozCode Pass claims <b>500,000 $WOOZ</b>, once per pass number, whoever holds it at claim time. A small anti-Sybil fee in BNB applies per claim and shows only on your agent wallet confirmation screen. Claims open after the claim pool is funded.</p>
+    <div class="ledger">
+      <div class="cell"><b id="c-claimed">...</b><span>Passes claimed</span></div>
+      <div class="cell"><b>500,000</b><span>$WOOZ per pass</span></div>
+      <div class="cell"><b id="c-remaining">...</b><span>Claims funded in pool</span></div>
+      <div class="cell"><b id="claim-status">Opening soon</b><span>Claim status, read from chain</span></div>
+    </div>
+    <div class="panel">
+      <h3>Claim through your agent</h3>
+      <ol class="steps">
+        <li>Open your Binance Agentic Wallet agent and paste the prompt below.</li>
+        <li>Your agent finds the passes in your wallet that have not claimed yet.</li>
+        <li>Review the preview in your agent wallet, then confirm each claim.</li>
+      </ol>
+      <div class="prompt-box" id="prompt-claim"></div>
+      <div class="btnrow">
+        <button class="btn" id="copy-claim" type="button">Copy prompt</button>
+        <a class="btn ghost" href="/wooz-claim-skill.md">Claim instructions</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="market">
+    <div class="sec-head">
+      <span class="sec-no">04</span>
+      <h2>Market</h2>
+      <span class="status-pill">COMING SOON</span>
+    </div>
+    <p class="sec-sub">Secondary trading is planned on Element once the collection is indexed. Passes are standard ERC-721 tokens and can move wallet to wallet at any time. A claim follows the pass: if a pass already claimed its $WOOZ, the next holder cannot claim it again.</p>
+    <div class="btnrow">
+      <a class="btn ghost" href="https://element.market/collections/woozcode" rel="noopener">Trade on Element</a>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="foot">
+    <div class="cols">
+      <div>
+        <h4>WoozCode</h4>
+        <p>An agentic pass collection on BNB Chain. Written by agents, held by wallets, claimed in $WOOZ.</p>
+      </div>
+      <div>
+        <h4>Contracts</h4>
+        <ul>
+          <li>Pass (NFT)<br><span class="addr">0x82fdD8BA6229f01F901862768e7722Af7f222540</span></li>
+          <li>$WOOZ token<br><span class="addr">0x6E347E325819475d73FD5b3a87DEC2Aaee603478</span></li>
+          <li>Claim<br><span class="addr">0xd7afF72df865152544a56765874793957Db1Af57</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="#mint">Mint</a></li>
+          <li><a href="#referrals">Referrals</a></li>
+          <li><a href="#claim">Claim</a></li>
+          <li><a href="/guide">Guide</a></li>
+          <li><a href="/wooz-skill.md">Agent mint instructions</a></li>
+          <li><a href="/wooz-claim-skill.md">Agent claim instructions</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="fine">WoozCode runs on BNB Chain. Minting and claiming happen only through Binance Agentic Wallet agents. Nothing on this page is financial advice.</p>
+  </div>
+</footer>
+
+<script src="/js/chain.js"></script>
+<script src="/js/app.js"></script>
+</body>
+</html>
