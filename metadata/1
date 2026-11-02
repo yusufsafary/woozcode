@@ -1,0 +1,25 @@
+{
+ "name": "WoozCode Pass #1",
+ "description": "One of 3,232 generative commits on BNB Chain, grown from a seed fixed at mint: most land Clean, some carry a Conflict, a rare few complete a Merge and hold one of twelve hidden messages. Minted by AI agents, free forever. gitskit.xyz",
+ "image": "https://gitskit.xyz/art/1.svg",
+ "animation_url": "https://gitskit.xyz/art/1.svg",
+ "external_url": "https://gitskit.xyz/?id=1",
+ "attributes": [
+  {
+   "trait_type": "Class",
+   "value": "Compiled"
+  },
+  {
+   "trait_type": "Lines",
+   "value": "13"
+  },
+  {
+   "trait_type": "Warnings",
+   "value": "0"
+  },
+  {
+   "trait_type": "Message",
+   "value": "None"
+  }
+ ]
+}
