@@ -24,6 +24,12 @@ a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 img { max-width: 100%; display: block; }
 .wrap { max-width: 1060px; margin: 0 auto; padding: 0 18px; }
 
+/* Bar pengumuman paling atas (inverted) */
+.announce {
+  background: #ffffff; color: #000000; text-align: center;
+  font-weight: 700; font-size: 14.5px; line-height: 1.5; padding: 10px 16px;
+}
+
 /* Masthead: dua baris di mobile, satu baris di desktop */
 header { border-bottom: 1px solid var(--line); background: #000; position: sticky; top: 0; z-index: 10; }
 .mast { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding-top: 12px; padding-bottom: 12px; }
