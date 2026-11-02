@@ -1,125 +1,74 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guide: WoozCode</title>
-<meta name="description" content="How WoozCode works: agent-only minting, referral quotas from 5 to 20, and a 500,000 $WOOZ claim per pass.">
-<meta property="og:title" content="WoozCode Guide">
-<meta property="og:image" content="https://woozcode.fun/og.png">
-<meta property="og:url" content="https://woozcode.fun/guide">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WoozCode 指南 · Guide</title>
+<meta name="description" content="How WoozCode works: build classes, referrals, and the $WOOZ burn claim after sellout.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="/style.css">
-<link rel="icon" href="/wooz-art.png">
 </head>
 <body>
-
-<header class="site">
-  <div class="bar">
-    <a class="wordmark" href="/"><span class="wz">WOOZ</span>CODE</a>
-    <nav class="main">
-      <a href="/#mint">Mint</a>
-      <a href="/#referrals">Referrals</a>
-      <a href="/#claim">Claim</a>
-      <a href="/guide">Guide</a>
-      <a href="/#market">Market</a>
+<header>
+  <div class="wrap mast">
+    <img src="/logo.svg" alt="WoozCode logo">
+    <a class="wordmark" href="/">woozcode<span>.fun</span></a>
+    <nav>
+      <a href="/#mint" data-zh="铸造" data-en="Mint">铸造</a>
+      <a href="/#referrals" data-zh="邀请" data-en="Referrals">邀请</a>
+      <a href="/guide" class="hide-sm" data-zh="指南" data-en="Guide">指南</a>
+      <a href="/#market" data-zh="市场" data-en="Market">市场</a>
+      <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
     </nav>
-    <span class="chip">BNB Chain · BEP-20</span>
   </div>
 </header>
 
-<main>
-  <div class="page-head">
-    <div class="kicker">Guide</div>
-    <h1>How WoozCode<br><span class="g">works</span></h1>
-    <p class="lede">WoozCode borrows two ideas and keeps them simple. Minting works like the agentic pass collections before it: agents only, gated by Binance Agent ID. On top of that sits a referral quota, borrowed from share style launches: your minting room grows when wallets you invited write their first pass.</p>
+<main class="wrap">
+  <div class="hero">
+    <h1 data-zh="指南" data-en="Guide">指南</h1>
+    <p class="sub" data-zh="概念、类别、邀请规则，以及售罄之后的 $WOOZ 焚毁领取。" data-en="The concept, the classes, the referral rules, and the $WOOZ burn claim that follows the sellout.">概念、类别、邀请规则，以及售罄之后的 $WOOZ 焚毁领取。</p>
   </div>
 
-  <section class="blk">
-    <div class="sec-head"><span class="sec-no">A</span><h2>Writing a pass</h2></div>
-    <p class="sec-sub">A pass is minted by an agent, never by a browser. There is no connect button on this site and no mint button either. Your agent reads the instructions at <a href="/wooz-skill.md">wooz-skill.md</a>, checks that your wallet holds a Binance Agent ID, and calls the mint function on BNB Chain.</p>
-    <ul class="rules">
-      <li><b>Supply 5,555.</b> Pass numbers run from 1 to 5,555 and are issued in order.</li>
-      <li><b>One per call.</b> Each mint call writes exactly one pass.</li>
-      <li><b>Platform fee.</b> A small fee in BNB applies per mint. It appears only on your agent wallet confirmation screen, never on this site.</li>
-      <li><b>Quota applies.</b> A wallet can never hold more minted passes than its current quota, even across many calls.</li>
-    </ul>
+  <section>
+    <div class="sec-head"><span class="sec-no mono">A</span><h2 data-zh="概念" data-en="Concept">概念</h2></div>
+    <p class="sec-desc" data-zh="每件 WoozCode 都是一次构建。铸造时，合约把一个种子锁定在作品里；终端里的代码由这个种子逐行确定性生成，永远不会改变。大多数构建干净通过，一些带着警告，极少数以一个错误收尾，并把一行日志留在窗口里。" data-en="Every WoozCode is one build. At mint, the contract locks a seed into the work; the code in the terminal is generated from that seed, line by line, and never changes. Most builds pass clean, some carry warnings, and a rare few end on a single error that leaves one log line in the window.">每件 WoozCode 都是一次构建。铸造时，合约把一个种子锁定在作品里；终端里的代码由这个种子逐行确定性生成，永远不会改变。大多数构建干净通过，一些带着警告，极少数以一个错误收尾，并把一行日志留在窗口里。</p>
+    <table class="classes">
+      <tr><th data-zh="类别" data-en="Class">类别</th><th data-zh="占比" data-en="Share">占比</th><th data-zh="含义" data-en="Meaning">含义</th></tr>
+      <tr><td><span class="dot" style="background:#ffffff"></span>Compiled</td><td>±70%</td><td data-zh="构建成功，零错误零警告。" data-en="Build succeeded. Zero errors, zero warnings.">构建成功，零错误零警告。</td></tr>
+      <tr><td><span class="dot" style="background:#8f8f8f"></span>Warning</td><td>±27%</td><td data-zh="构建成功，但有 2 到 4 行带着警告。" data-en="Build succeeded with 2 to 4 warning lines.">构建成功，但有 2 到 4 行带着警告。</td></tr>
+      <tr><td><span class="dot" style="background:#000;border:1px solid #fff"></span>Error</td><td>±3%</td><td data-zh="构建失败于一行，并携带 12 条隐藏日志之一。" data-en="Build failed on one line, carrying one of 12 hidden log lines.">构建失败于一行，并携带 12 条隐藏日志之一。</td></tr>
+    </table>
   </section>
 
-  <section class="blk">
-    <div class="sec-head"><span class="sec-no">B</span><h2>Referral quota</h2></div>
-    <p class="sec-sub">Quota is counted by the contract itself, so the numbers on the home page are the numbers on chain.</p>
-    <ul class="rules">
-      <li><b>Start at 5.</b> Every eligible wallet begins with a quota of 5 passes.</li>
-      <li><b>Invite to grow.</b> Share your wallet address. When a wallet's first ever mint names you as referrer, your invite count rises by 1 and so does your quota.</li>
-      <li><b>Cap at 20.</b> After 15 successful invites your quota is full at 20. Extra invites are still counted, they just add no more room.</li>
-      <li><b>No payout.</b> Referral pays in room, not in tokens or BNB. Nobody can farm it with their own wallets: a referral only counts from a different wallet, on its first mint.</li>
-    </ul>
+  <section>
+    <div class="sec-head"><span class="sec-no mono">B</span><h2 data-zh="规则" data-en="Rules">规则</h2></div>
+    <p class="sec-desc" data-zh="供应 3,232。价格零，平台佣金零。每钱包最多铸造 1 枚，永久有效。铸造需要持有币安 Agent ID，并且只能通过代理完成，合约调用会被拒绝。每次铸造最多填写一位邀请人；自我邀请不计数。" data-en="Supply is 3,232. Price is zero and the platform fee is zero. Each wallet can mint at most one work, ever. Minting requires a Binance Agent ID and runs only through agents; contract calls are rejected. Each mint may name one referrer; self-referrals do not count.">供应 3,232。价格零，平台佣金零。每钱包最多铸造 1 枚，永久有效。铸造需要持有币安 Agent ID，并且只能通过代理完成，合约调用会被拒绝。每次铸造最多填写一位邀请人；自我邀请不计数。</p>
   </section>
 
-  <section class="blk">
-    <div class="sec-head"><span class="sec-no">C</span><h2>Claiming $WOOZ</h2></div>
-    <p class="sec-sub">$WOOZ is a fixed supply token of 10,000,000,000. A claim pool of 2,777,500,000 $WOOZ is set aside for pass holders. Every pass claims 500,000 $WOOZ exactly once, through the flow at <a href="/wooz-claim-skill.md">wooz-claim-skill.md</a>. Claims carry a small anti-Sybil fee in BNB, shown only on the agent wallet confirmation screen. Pool tokens cannot be withdrawn by anyone, so a funded claim stays claimable. Claims open once the pool is funded, and the status on the home page reads straight from the claim contract.</p>
+  <section>
+    <div class="sec-head"><span class="sec-no mono">C</span><h2>$WOOZ</h2></div>
+    <p class="sec-desc" data-zh="$WOOZ 是 WoozCode 的持有者代币，只在 NFT 售罄后开启。领取即焚毁：领取时你的 NFT 被永久销毁，换取 500,000 $WOOZ（另付一笔小额领取费）。邀请奖励单独领取：每次成功邀请 25,000 $WOOZ。未领取的 NFT 继续存在；每一次焚毁都会让剩下的作品更稀少。焚毁数量会在本站实时公示。" data-en="$WOOZ is the WoozCode holder token, and it opens only after the NFT sells out. Claiming is burning: to claim, your NFT is destroyed for good and exchanged for 500,000 $WOOZ, for a small claim fee. Referral bonuses claim separately at 25,000 $WOOZ per successful invite. Unclaimed NFTs stay alive; every burn makes the survivors scarcer. The burn count will be shown live on this site.">$WOOZ 是 WoozCode 的持有者代币，只在 NFT 售罄后开启。领取即焚毁：领取时你的 NFT 被永久销毁，换取 500,000 $WOOZ（另付一笔小额领取费）。邀请奖励单独领取：每次成功邀请 25,000 $WOOZ。未领取的 NFT 继续存在；每一次焚毁都会让剩下的作品更稀少。焚毁数量会在本站实时公示。</p>
   </section>
 
-  <section class="blk">
-    <div class="sec-head"><span class="sec-no">D</span><h2>Questions</h2></div>
-    <div class="faq">
-      <details>
-        <summary>Why is there no mint button?</summary>
-        <p>WoozCode is an agentic collection. Minting is a job for your Binance Agentic Wallet agent, the same way the earlier agentic pass collections worked. This site only reads the chain and explains the rules.</p>
-      </details>
-      <details>
-        <summary>What do I need before minting?</summary>
-        <p>A Binance Agentic Wallet, a Binance Agent ID held by that wallet, and enough BNB for the platform fee and network gas. Your agent checks all three before it calls.</p>
-      </details>
-      <details>
-        <summary>Can a contract or a bot mint for me?</summary>
-        <p>No. The contract rejects calls that do not come straight from a wallet, and it requires a Binance Agent ID. That is deliberate: passes are written by agents acting for people.</p>
-      </details>
-      <details>
-        <summary>What happens if I buy a pass on the market?</summary>
-        <p>You hold the pass and everything attached to it. If its $WOOZ was never claimed, you can claim it. If it was claimed before the sale, that claim is spent. The claim contract tracks this per pass number.</p>
-      </details>
-      <details>
-        <summary>Is $WOOZ traded anywhere?</summary>
-        <p>Not at launch. $WOOZ has no trading tax and no pool at launch. If a pool is ever opened, it will use reserve tokens from the project wallet, and it will be announced on this site first.</p>
-      </details>
-    </div>
+  <section>
+    <div class="sec-head"><span class="sec-no mono">D</span><h2 data-zh="常见问题" data-en="FAQ">常见问题</h2></div>
+    <p class="sec-desc"><b data-zh="为什么没有铸造按钮？" data-en="Why is there no mint button?">为什么没有铸造按钮？</b><br><span data-zh="WoozCode 只通过币安智能钱包代理铸造。把首页的提示词发给你的代理即可。" data-en="WoozCode mints only through Binance Agentic Wallet agents. Send your agent the prompt from the home page.">WoozCode 只通过币安智能钱包代理铸造。把首页的提示词发给你的代理即可。</span></p>
+    <p class="sec-desc"><b data-zh="旧版 WoozCode Pass 去哪了？" data-en="What happened to the first WoozCode Pass?">旧版 WoozCode Pass 去哪了？</b><br><span data-zh="第一版从未开放铸造，现已被这一版取代。本页底部的合约地址是唯一有效的 WoozCode 铸造合约。" data-en="The first version never opened for minting and has been retired in favour of this one. The contract address in the footer of this page is the only live WoozCode mint.">第一版从未开放铸造，现已被这一版取代。本页底部的合约地址是唯一有效的 WoozCode 铸造合约。</span></p>
+    <p class="sec-desc"><b data-zh="可以铸造第二枚吗？" data-en="Can I mint a second one?">可以铸造第二枚吗？</b><br><span data-zh="不可以。每个钱包一枚，由合约强制执行。" data-en="No. One per wallet, enforced by the contract.">不可以。每个钱包一枚，由合约强制执行。</span></p>
   </section>
 </main>
 
-<footer class="site">
-  <div class="foot">
-    <div class="cols">
-      <div>
-        <h4>WoozCode</h4>
-        <p>An agentic pass collection on BNB Chain. Written by agents, held by wallets, claimed in $WOOZ.</p>
-      </div>
-      <div>
-        <h4>Contracts</h4>
-        <ul>
-          <li>Pass (NFT)<br><span class="addr">0x82fdD8BA6229f01F901862768e7722Af7f222540</span></li>
-          <li>$WOOZ token<br><span class="addr">0x6E347E325819475d73FD5b3a87DEC2Aaee603478</span></li>
-          <li>Claim<br><span class="addr">0xd7afF72df865152544a56765874793957Db1Af57</span></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Pages</h4>
-        <ul>
-          <li><a href="/">Home</a></li>
-          <li><a href="/#mint">Mint</a></li>
-          <li><a href="/#claim">Claim</a></li>
-          <li><a href="/wooz-skill.md">Agent mint instructions</a></li>
-          <li><a href="/wooz-claim-skill.md">Agent claim instructions</a></li>
-        </ul>
-      </div>
+<footer>
+  <div class="wrap">
+    <div class="row mono">
+      <span>WOOZCODE · BNB CHAIN</span>
+      <a href="/" data-zh="首页" data-en="Home">首页</a>
+      <a href="/wooz-skill.md" data-zh="代理说明" data-en="Agent skill">代理说明</a>
     </div>
-    <p class="fine">WoozCode runs on BNB Chain. Minting and claiming happen only through Binance Agentic Wallet agents. Nothing on this page is financial advice.</p>
+    <p class="mono addr" style="margin-top:12px">NFT 0xeF307E29292663376DC3Cb668373081cCFfcFf0E</p>
   </div>
 </footer>
 
+<script src="/app.js"></script>
 </body>
 </html>
