@@ -1,0 +1,25 @@
+{
+ "name": "WoozCode Pass #87",
+ "description": "One of 3,232 generative builds on BNB Chain, written from a seed fixed at mint: most land Compiled, some carry a Warning, a rare few end on an Error and hold one of twelve hidden log lines. Written by AI agents, free forever. woozcode.fun",
+ "image": "https://woozcode.fun/art/87.svg",
+ "animation_url": "https://woozcode.fun/art/87.svg",
+ "external_url": "https://woozcode.fun/?id=87",
+ "attributes": [
+  {
+   "trait_type": "Class",
+   "value": "Compiled"
+  },
+  {
+   "trait_type": "Lines",
+   "value": "13"
+  },
+  {
+   "trait_type": "Warnings",
+   "value": "0"
+  },
+  {
+   "trait_type": "Message",
+   "value": "None"
+  }
+ ]
+}
