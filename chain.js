@@ -1,7 +1,9 @@
-// GITSKIT chain reads: plain eth_call against public BSC RPCs.
+// WOOZCODE chain reads: plain eth_call against public BSC RPCs, raced in parallel.
 const NFT = "0xeF307E29292663376DC3Cb668373081cCFfcFf0E";
 const RPCS = [
   "https://bsc-dataseed1.binance.org",
+  "https://bsc-dataseed.binance.org",
+  "https://bsc-dataseed-public.bnbchain.org",
   "https://bsc-mainnet.public.blastapi.io",
   "https://bsc-rpc.publicnode.com",
 ];
@@ -16,19 +18,31 @@ const SEL = {
 };
 const padAddr = (a) => a.toLowerCase().replace("0x", "").padStart(64, "0");
 
-async function ethCall(data) {
-  for (const rpc of RPCS) {
-    try {
-      const r = await fetch(rpc, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: NFT, data }, "latest"] }),
-      });
-      const j = await r.json();
-      if (j.result && j.result !== "0x") return j.result;
-    } catch (e) { /* try next */ }
+async function ethCallOnce(rpc, data) {
+  const ctl = new AbortController();
+  const timer = setTimeout(() => ctl.abort(), 6000);
+  try {
+    const r = await fetch(rpc, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "eth_call", params: [{ to: NFT, data }, "latest"] }),
+      signal: ctl.signal,
+    });
+    const j = await r.json();
+    if (j.result && j.result !== "0x") return j.result;
+    throw new Error("empty");
+  } finally {
+    clearTimeout(timer);
   }
-  return null;
+}
+async function ethCall(data) {
+  // Balapan semua RPC paralel: hasil tercepat yang dipakai (dulu sekuensial,
+  // satu RPC lambat membuat ledger lama tampil "...").
+  try {
+    return await Promise.any(RPCS.map((rpc) => ethCallOnce(rpc, data)));
+  } catch (e) {
+    return null;
+  }
 }
 const word = (hex, i) => BigInt("0x" + hex.slice(2 + i * 64, 2 + (i + 1) * 64));
 const wordBool = (hex, i) => word(hex, i) !== 0n;
