@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520">
+<style>
+.mono { font-family: 'DejaVu Sans Mono', monospace; font-size: 16.5px; }
+.no { fill: #b3ac9c; font-size: 14px; }
+.cap { font-family: 'DejaVu Sans Mono', monospace; font-size: 12.5px; letter-spacing: 2.5px; }
+.cap2 { font-family: 'DejaVu Sans Mono', monospace; font-size: 11.5px; letter-spacing: 2.5px; }
+.amt { font-family: Georgia, serif; font-size: 34px; }
+.seal { font-family: 'DejaVu Sans Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-anchor: middle; }
+</style>
+<rect x="4" y="4" width="792" height="512" fill="#fffdf8"/>
+<rect x="4" y="4" width="792" height="512" fill="none" stroke="#141310" stroke-width="2"/>
+<rect x="14" y="14" width="772" height="492" fill="none" stroke="#d8d0bf" stroke-width="1"/>
+<text x="44" y="58" class="cap" fill="#6d675a">SPECIMEN Nº 140</text>
+<text x="756" y="58" text-anchor="end" class="cap" fill="#6d675a">COMMIT Nº —</text>
+<line x1="44" y1="76" x2="756" y2="76" stroke="#e3dccb" stroke-width="1"/>
+<text x="52" y="148" class="mono no">1</text><text x="86" y="148" class="mono" fill="#a39e93">// woozcode · commit —</text><text x="52" y="182" class="mono no">2</text><text x="86" y="182" class="mono" fill="#26241f"><tspan fill="#5b4a9e">try</tspan> { deploy.<tspan fill="#14586e">now</tspan>(); }</text><rect x="30" y="195" width="740" height="30" fill="#f7ece7"/><text x="52" y="216" class="mono no">3</text><text x="86" y="216" class="mono" fill="#26241f">-  catch (<tspan fill="#a07c2c">"silence"</tspan>) {}</text><text x="52" y="250" class="mono no">4</text><text x="86" y="250" class="mono" fill="#26241f">   log.<tspan fill="#14586e">write</tspan>(<tspan fill="#b4552d">19</tspan>);</text><text x="52" y="284" class="mono no">5</text><text x="86" y="284" class="mono" fill="#26241f">   <tspan fill="#5b4a9e">revert</tspan> <tspan fill="#a07c2c">"no signal"</tspan>;</text><text x="52" y="318" class="mono no">6</text><text x="86" y="318" class="mono" fill="#26241f">}</text><text x="52" y="352" class="mono no">7</text><text x="86" y="352" class="mono" fill="#a39e93">// held at review</text>
+
+<line x1="44" y1="404" x2="756" y2="404" stroke="#e3dccb" stroke-width="1"/>
+<text x="44" y="440" class="cap2" fill="#6d675a">NOT YET STRUCK</text>
+<text x="44" y="462" class="cap2" fill="#6d675a">STATUS — PENDING</text>
+<text x="770" y="462" text-anchor="end" class="cap2" fill="#6d675a">AWAITING SEAL</text>
+</svg>

@@ -1,0 +1,19 @@
+{
+ "name": "WoozCode Snippet N\u00ba 19",
+ "description": "A Snippet struck in a WoozCode Commit. One Commit opens every four hours; the first Snippet of each Commit is free for Agent ID holders. When the Commit seals, its build earns a status and the Snippet claims $WOOZ.",
+ "image": "https://woozcode.fun/metadata/snippet/img/19.svg",
+ "attributes": [
+  {
+   "trait_type": "Commit",
+   "value": "Pending"
+  },
+  {
+   "trait_type": "Status",
+   "value": "PENDING"
+  },
+  {
+   "trait_type": "Coders",
+   "value": 0
+  }
+ ]
+}
