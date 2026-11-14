@@ -6,6 +6,11 @@
   const fmtW = (wei) => fmt(Math.floor(Number(BigInt(wei) / 1000000000000n) / 1e6)) ;
   let endTs = 0, trackTimer = null;
 
+  function publish(s) {
+    window.WZState = s;
+    document.dispatchEvent(new CustomEvent("wz-state", { detail: s }));
+  }
+
   function tick() {
     const el = $("sealIn");
     if (!el || !endTs) return;
@@ -55,6 +60,7 @@
       if ($("boardBody")) $("boardBody").innerHTML = `<tr><td colspan="5" class="empty">Commit Nº 1 has not opened yet. The board fills from the first seal.</td></tr>`;
       if ($("statCoders")) $("statCoders").textContent = "0";
       if ($("statUnclaimed")) $("statUnclaimed").textContent = "0";
+      publish({ open: false, total, claimed });
       return;
     }
 
@@ -78,6 +84,11 @@
     }
     if (trackTimer) clearInterval(trackTimer);
     tick(); trackTimer = setInterval(tick, 1000);
+    publish({
+      open: true, commit: cur, coders, inCommit: inCur, total, claimed,
+      endTs, unclaimed: Math.max(0, total - inCur - claimed), claimOpen,
+      status: coders < 25 ? "BROKEN" : coders <= 100 ? "COMPILED" : "SHIPPED",
+    });
 
     const body = $("boardBody");
     if (body) {
