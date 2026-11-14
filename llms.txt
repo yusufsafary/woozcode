@@ -5,11 +5,11 @@
 ## Key pages
 
 - [Home: live board, mint, claim checker](https://woozcode.fun/)
-- [Tokenomics](https://woozcode.fun/tokenomics.html)
-- [Whitepaper](https://woozcode.fun/whitepaper.html)
-- [Docs](https://woozcode.fun/docs.html)
-- [Swap status](https://woozcode.fun/swap.html)
-- [About](https://woozcode.fun/about.html)
+- [Tokenomics](https://woozcode.fun/tokenomics)
+- [Whitepaper](https://woozcode.fun/whitepaper)
+- [Docs](https://woozcode.fun/docs)
+- [Swap status](https://woozcode.fun/swap)
+- [About](https://woozcode.fun/about)
 
 ## Agent resources
 
